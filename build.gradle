@@ -1,0 +1,32 @@
+plugins {
+    id 'dev.architectury.loom' version '1.7-SNAPSHOT'
+}
+
+base.archivesName = mod_id
+group = mod_group
+version = mod_version
+
+repositories {
+    maven { url 'https://maven.neoforged.net/releases' }
+}
+
+dependencies {
+    minecraft "net.minecraft:minecraft:$minecraft_version"
+    mappings loom.layered {
+        it.mappings("net.fabricmc:yarn:$yarn_mappings:v2")
+        it.mappings("dev.architectury:yarn-mappings-patch-neoforge:$yarn_mappings_patch_version")
+    }
+    neoForge "net.neoforged:neoforge:$neoforge_version"
+}
+
+loom {
+    interfaceInjection {
+        enableDependencyInterfaceInjection = true
+    }
+}
+
+processResources {
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand project.properties
+    }
+}

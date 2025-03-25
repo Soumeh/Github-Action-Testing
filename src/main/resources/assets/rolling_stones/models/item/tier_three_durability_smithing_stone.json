@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "rolling_stones:item/tier_three_durability_smithing_stone"
+	}
+}

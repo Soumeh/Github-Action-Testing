@@ -1,0 +1,10 @@
+{
+	"injected_interfaces": {
+		"net/minecraft/enchantment/Enchantment": [ "org/solstice/rollingStones/content/effectHolder/EffectHolder" ],
+		"net/minecraft/enchantment/Enchantment$Definition": [ "org/solstice/rollingStones/content/effectHolder/EffectHolder$Definition" ],
+		"net/minecraft/component/type/ItemEnchantmentsComponent": [ "org/solstice/rollingStones/content/effectHolder/EffectHolderComponent<Lnet/minecraft/enchantment/Enchantment;>" ],
+		"net/minecraft/enchantment/EnchantmentHelper$Consumer": [ "org/solstice/rollingStones/content/effectHolder/EffectHolderHelper$Consumer" ],
+		"net/minecraft/enchantment/EnchantmentHelper$ContextAwareConsumer": [ "org/solstice/rollingStones/content/effectHolder/EffectHolderHelper$ContextAwareConsumer" ],
+		"net/minecraft/entity/LivingEntity": [ "org/solstice/rollingStones/content/entity/EntityEffectHolderData" ]
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"required": true,
+	"package": "org.solstice.rollingStones.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"gameplay.AnvilMenuMixin",
+		"technical.EnchantmentDefinitionMixin",
+		"technical.EnchantmentHelperMixin",
+		"technical.EnchantmentMixin",
+		"technical.ItemEnchantmentsComponentMixin",
+		"technical.ItemStackMixin",
+		"technical.LivingEntityMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

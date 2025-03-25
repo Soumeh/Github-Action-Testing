@@ -1,0 +1,21 @@
+{
+	"supported_items": "#minecraft:enchantable/sharp_weapon",
+	"max_tier": 3,
+	"slots": [
+		"mainhand"
+	],
+	"effects": {
+		"minecraft:damage": [
+			{
+				"effect": {
+					"type": "minecraft:add",
+					"value": {
+						"type": "minecraft:linear",
+						"base": 1.0,
+						"per_level_above_first": 1
+					}
+				}
+			}
+		]
+	}
+}

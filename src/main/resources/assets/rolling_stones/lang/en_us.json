@@ -1,0 +1,17 @@
+{
+    "item.minecraft.smithing_template.upgrade": "Decorations:",
+    "item.enchantments": "Enchantments:",
+    "item.upgrades": "Upgrades:",
+    "item.attributes": "Attributes:",
+
+    "item.rolling_stones.tier_one_durability_smithing_stone": "Durability Smithing Stone",
+    "item.rolling_stones.tier_two_durability_smithing_stone": "Durability Smithing Stone",
+    "item.rolling_stones.tier_three_durability_smithing_stone": "Durability Smithing Stone",
+    "item.smithing_stone.tooltip": "+%s %s",
+    "upgrade.tiers": " [%s/%s]",
+
+    "upgrade.rolling_stones.durability": "Durability",
+    "upgrade.rolling_stones.sharpness": "Sharpness",
+    "upgrade.rolling_stones.efficiency": "Efficiency",
+    "upgrade.rolling_stones.protection": "Protection"
+}

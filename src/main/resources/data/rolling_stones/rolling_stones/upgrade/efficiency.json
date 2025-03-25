@@ -1,0 +1,20 @@
+{
+	"supported_items": "#minecraft:enchantable/mining",
+	"max_tier": 3,
+	"slots": [
+		"mainhand"
+	],
+	"effects": {
+		"minecraft:attributes": [
+			{
+				"amount": {
+					"type": "minecraft:levels_squared",
+					"added": 1.66
+				},
+				"attribute": "minecraft:player.mining_efficiency",
+				"id": "minecraft:enchantment.efficiency",
+				"operation": "add_value"
+			}
+		]
+	}
+}

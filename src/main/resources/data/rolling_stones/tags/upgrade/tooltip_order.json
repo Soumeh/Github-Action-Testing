@@ -1,0 +1,8 @@
+{
+	"values": [
+		"upgrades:durability",
+		"upgrades:sharpness",
+		"upgrades:efficiency",
+		"upgrades:protection"
+	]
+}
