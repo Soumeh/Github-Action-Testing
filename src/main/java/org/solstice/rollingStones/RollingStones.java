@@ -5,10 +5,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.solstice.rollingStones.registry.ModComponentTypes;
-import org.solstice.rollingStones.registry.ModItems;
-import org.solstice.rollingStones.registry.ModRecipeSerializers;
-import org.solstice.rollingStones.registry.ModRecipeTypes;
+import org.solstice.rollingStones.registry.*;
 
 @Mod(RollingStones.MOD_ID)
 public class RollingStones {
@@ -25,6 +22,7 @@ public class RollingStones {
         ModComponentTypes.REGISTRY.register(bus);
         ModRecipeTypes.REGISTRY.register(bus);
         ModRecipeSerializers.REGISTRY.register(bus);
+		ModEnchantmentEffects.REGISTRY.register(bus);
     }
 
 }

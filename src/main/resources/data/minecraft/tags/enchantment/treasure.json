@@ -1,6 +1,6 @@
 {
 	"values": [],
 	"remove": [
-		"minecraft:mending"
+		"#rolling_stones:removed"
 	]
 }

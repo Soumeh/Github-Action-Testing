@@ -13,7 +13,7 @@ public class ModRecipeSerializers {
 
     public static final RecipeSerializer<?> SMITHING_UPGRADE = register("smithing_upgrade", SmithingUpgradeRecipe.SERIALIZER);
 
-    private static RecipeSerializer<?> register(String name, RecipeSerializer<?> serializer) {
+		private static RecipeSerializer<?> register(String name, RecipeSerializer<?> serializer) {
         REGISTRY.register(name, () -> serializer);
         return serializer;
     }

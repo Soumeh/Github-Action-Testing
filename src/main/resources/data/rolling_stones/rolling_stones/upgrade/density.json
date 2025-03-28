@@ -1,18 +1,18 @@
 {
-	"supported_items": "#minecraft:enchantable/sharp_weapon",
+	"supported_items": "#minecraft:enchantable/mace",
 	"max_tier": 3,
 	"slots": [
 		"mainhand"
 	],
 	"effects": {
-		"minecraft:damage": [
+		"minecraft:smash_damage_per_fallen_block": [
 			{
 				"effect": {
 					"type": "minecraft:add",
 					"value": {
 						"type": "minecraft:linear",
-						"base": 1.0,
-						"per_level_above_first": 1.0
+						"base": 0.5,
+						"per_level_above_first": 0.5
 					}
 				}
 			}

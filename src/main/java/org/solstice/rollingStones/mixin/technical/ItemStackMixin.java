@@ -10,6 +10,7 @@ import net.minecraft.item.tooltip.TooltipAppender;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.neoforged.neoforge.common.util.AttributeTooltipContext;
+import org.solstice.rollingStones.content.effectHolder.EffectHolderHelper;
 import org.solstice.rollingStones.registry.ModComponentTypes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -39,6 +41,13 @@ public abstract class ItemStackMixin implements ComponentHolder {
         this.appendTooltip(ModComponentTypes.STORED_UPGRADES, context, consumer, type);
         this.appendTooltip(ModComponentTypes.UPGRADES, context, consumer, type);
     }
+
+	@Inject(method = "getMaxDamage", at = @At("RETURN"), cancellable = true)
+	private void injected(CallbackInfoReturnable<Integer> cir) {
+		int result = cir.getReturnValue();
+		result = EffectHolderHelper.getMaxDurability((ItemStack)(Object)this, result);
+		cir.setReturnValue(result);
+	}
 
 //    @Redirect(
 //            method = "getTooltip",

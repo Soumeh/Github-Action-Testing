@@ -62,19 +62,11 @@ public record ItemUpgradesComponent(
     public void appendTooltip(Item.TooltipContext context, Consumer<Text> tooltip, TooltipType type) {
         if (!this.showInTooltip) return;
 
-        RegistryWrapper.WrapperLookup lookup = context.getRegistryLookup();
-        RegistryEntryList<Upgrade> orderedUpgrades = getTooltipOrderList(lookup, ModRegistryKeys.UPGRADE, UpgradeTags.TOOLTIP_ORDER);
-
         if (!this.upgrades.isEmpty())
             tooltip.accept(UPGRADES_TEXT);
 
-        orderedUpgrades.forEach(upgrade -> {
-            int level = this.upgrades.getInt(upgrade);
-            if (level > 0) addUpgradeTooltip(upgrade, level, tooltip);
-        });
-
         this.upgrades.forEach((upgrade, level) -> {
-            if (!orderedUpgrades.contains(upgrade)) addUpgradeTooltip(upgrade, level, tooltip);
+            addUpgradeTooltip(upgrade, level, tooltip);
         });
     }
 

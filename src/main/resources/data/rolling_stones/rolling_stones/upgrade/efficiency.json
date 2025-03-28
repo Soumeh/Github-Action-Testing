@@ -9,7 +9,7 @@
 			{
 				"amount": {
 					"type": "minecraft:levels_squared",
-					"added": 1.66
+					"added": 1.6666666666666667
 				},
 				"attribute": "minecraft:player.mining_efficiency",
 				"id": "minecraft:enchantment.efficiency",

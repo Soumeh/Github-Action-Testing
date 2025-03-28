@@ -3,10 +3,14 @@ package org.solstice.rollingStones.content.effectHolder;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.enchantment.EnchantmentEffectContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
+import org.apache.commons.lang3.mutable.MutableFloat;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.solstice.rollingStones.registry.ModComponentTypes;
 
 import java.util.List;
@@ -47,6 +51,16 @@ public class EffectHolderHelper {
             forEachEffectHolder(entity.getEquippedStack(slot), slot, entity, consumer);
         }
     }
+
+
+	public static int getMaxDurability(ItemStack stack, int base) {
+		MutableFloat result = new MutableFloat(base);
+		forEachEffectHolder(stack, (effectHolder, level) ->
+			effectHolder.value().modifyMaxDurability(level, result)
+		);
+		return result.intValue();
+	}
+
 
     @FunctionalInterface
     public interface Consumer {

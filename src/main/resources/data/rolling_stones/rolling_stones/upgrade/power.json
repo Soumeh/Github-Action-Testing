@@ -1,0 +1,28 @@
+{
+	"supported_items": "#minecraft:enchantable/bow",
+	"max_tier": 3,
+	"slots": [
+		"mainhand"
+	],
+	"effects": {
+		"minecraft:damage": [
+			{
+				"effect": {
+					"type": "minecraft:add",
+					"value": {
+						"type": "minecraft:linear",
+						"base": 0.6666666666666667,
+						"per_level_above_first": 0.6666666666666667
+					}
+				},
+				"requirements": {
+					"condition": "minecraft:entity_properties",
+					"entity": "direct_attacker",
+					"predicate": {
+						"type": "#minecraft:arrows"
+					}
+				}
+			}
+		]
+	}
+}

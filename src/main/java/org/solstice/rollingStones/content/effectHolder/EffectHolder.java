@@ -19,6 +19,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import org.apache.commons.lang3.mutable.MutableFloat;
+import org.apache.commons.lang3.mutable.MutableInt;
+import org.solstice.rollingStones.registry.ModEnchantmentEffects;
 
 import java.util.List;
 import java.util.Set;
@@ -82,7 +84,7 @@ public interface EffectHolder {
             value.setValue(effect.apply(level, random, value.floatValue()));
         }
     }
-    
+
     default void modifyValue(ComponentType<List<EnchantmentEffectEntry<EnchantmentValueEffect>>> type, ServerWorld world, int level, ItemStack stack, MutableFloat value) {
         applyEffects(
                 this.getEffect(type),
@@ -200,6 +202,12 @@ public interface EffectHolder {
     default void modifyCrossbowChargeTime(Random random, int level, MutableFloat crossbowChargeTime) {
         this.modifyValue(EnchantmentEffectComponentTypes.CROSSBOW_CHARGE_TIME, random, level, crossbowChargeTime);
     }
+
+
+	default void modifyMaxDurability(int level, MutableFloat maxDurability) {
+		this.modifyValue(ModEnchantmentEffects.MAX_DURABILITY, Random.create(), level, maxDurability);
+	}
+
 
     default void applyLocationBasedEffects(ServerWorld world, int level, EnchantmentEffectContext context, LivingEntity user) {
         if (context.slot() != null && !this.slotMatches(context.slot())) {

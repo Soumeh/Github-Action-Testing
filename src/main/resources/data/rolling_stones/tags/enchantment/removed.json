@@ -5,6 +5,7 @@
 		"minecraft:efficiency",
 		"minecraft:unbreaking",
 		"minecraft:power",
-		"minecraft:mending"
+		"minecraft:mending",
+		"minecraft:density"
 	]
 }

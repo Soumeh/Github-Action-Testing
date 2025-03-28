@@ -1,10 +1,6 @@
 {
 	"values": [],
 	"remove": [
-		"minecraft:protection",
-		"minecraft:sharpness",
-		"minecraft:efficiency",
-		"minecraft:unbreaking",
-		"minecraft:power"
+		"#rolling_stones:removed"
 	]
 }

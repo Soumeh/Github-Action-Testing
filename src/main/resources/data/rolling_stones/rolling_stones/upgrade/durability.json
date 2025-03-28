@@ -5,58 +5,13 @@
 		"any"
 	],
 	"effects": {
-		"minecraft:item_damage": [
-			{
-				"effect": {
-					"type": "minecraft:remove_binomial",
-					"chance": {
-						"type": "minecraft:fraction",
-						"denominator": {
-							"type": "minecraft:linear",
-							"base": 10.0,
-							"per_level_above_first": 5.0
-						},
-						"numerator": {
-							"type": "minecraft:linear",
-							"base": 2.0,
-							"per_level_above_first": 2.0
-						}
-					}
-				},
-				"requirements": {
-					"condition": "minecraft:match_tool",
-					"predicate": {
-						"items": "#minecraft:enchantable/armor"
-					}
-				}
-			},
-			{
-				"effect": {
-					"type": "minecraft:remove_binomial",
-					"chance": {
-						"type": "minecraft:fraction",
-						"denominator": {
-							"type": "minecraft:linear",
-							"base": 2.0,
-							"per_level_above_first": 1.0
-						},
-						"numerator": {
-							"type": "minecraft:linear",
-							"base": 1.0,
-							"per_level_above_first": 1.0
-						}
-					}
-				},
-				"requirements": {
-					"condition": "minecraft:inverted",
-					"term": {
-						"condition": "minecraft:match_tool",
-						"predicate": {
-							"items": "#minecraft:enchantable/armor"
-						}
-					}
-				}
+		"rolling_stones:max_durability": {
+			"type": "minecraft:multiply",
+			"factor": {
+				"type": "minecraft:linear",
+				"base": 1.3333333333333334,
+				"per_level_above_first": 1.3333333333333334
 			}
-		]
+		}
 	}
 }
