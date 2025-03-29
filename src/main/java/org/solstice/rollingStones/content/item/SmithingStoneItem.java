@@ -3,26 +3,40 @@ package org.solstice.rollingStones.content.item;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
+import org.solstice.rollingStones.registry.ModComponentTypes;
+import org.solstice.rollingStones.registry.ModItems;
 import org.solstice.rollingStones.registry.ModRegistryKeys;
 
 import java.util.List;
 
-public class HoningStoneItem extends Item {
+public class SmithingStoneItem extends Item {
 
     private final RegistryKey<Upgrade> upgrade;
     private final int tier;
 
-    public HoningStoneItem(RegistryKey<Upgrade> upgrade, int tier, Settings settings) {
+    public SmithingStoneItem(RegistryKey<Upgrade> upgrade, int tier, Settings settings) {
         super(settings);
         this.upgrade = upgrade;
         this.tier = tier;
     }
+
+//	public static ItemStack forUpgrade(UpgradeInfo info) {
+//		ItemStack stack = new ItemStack(ModItems.SMITHING_STONE.get());
+//		Identifier upgradeId = info.entry.getKey().orElseThrow().getValue();
+//		Identifier modelId = Registries.ITEM.getId(stack.getItem())
+//				.withPrefixedPath(upgradeId.getNamespace() + "." + upgradeId.getPath() + ".")
+//				.withSuffixedPath(info.tier + ".");
+//		stack.set(ModComponentTypes.CUSTOM_ITEM_MODEL, modelId);
+//		return stack;
+//	}
 
     public RegistryEntry<Upgrade> getUpgrade(World world) {
         return this.getUpgrade(world.getRegistryManager());
@@ -46,5 +60,7 @@ public class HoningStoneItem extends Item {
         RegistryEntry<Upgrade> upgrade = this.getUpgrade(lookup);
         tooltip.add(Upgrade.getTooltip(upgrade, tier));
     }
+
+	public record UpgradeInfo(RegistryEntry<Upgrade> entry, int tier) {}
 
 }

@@ -20,8 +20,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.solstice.rollingStones.content.effectHolder.EffectHolderComponent;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
-import org.solstice.rollingStones.content.upgrade.UpgradeTags;
-import org.solstice.rollingStones.registry.ModRegistryKeys;
 
 import javax.annotation.Nullable;
 import java.util.Optional;

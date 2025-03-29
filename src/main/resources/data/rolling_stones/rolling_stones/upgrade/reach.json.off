@@ -1,0 +1,31 @@
+{
+	"supported_items": "#minecraft:enchantable/mining",
+	"max_tier": 3,
+	"slots": [
+		"mainhand"
+	],
+	"effects": {
+		"minecraft:attributes": [
+			{
+				"attribute": "minecraft:player.block_interaction_range",
+				"id": "rolling_stones:upgrade.reach",
+				"operation": "add_value",
+				"value": {
+					"type": "minecraft:linear",
+					"base": 0.5,
+					"per_level_above_first": 0.5
+				}
+			},
+			{
+				"attribute": "minecraft:player.entity_interaction_range",
+				"id": "rolling_stones:upgrade.reach",
+				"operation": "add_value",
+				"value": {
+					"type": "minecraft:linear",
+					"base": 0.5,
+					"per_level_above_first": 0.5
+				}
+			}
+		]
+	}
+}

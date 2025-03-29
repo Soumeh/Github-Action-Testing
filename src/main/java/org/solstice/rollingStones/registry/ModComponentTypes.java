@@ -6,6 +6,7 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.solstice.rollingStones.RollingStones;
 import org.solstice.rollingStones.content.item.component.ItemUpgradesComponent;
@@ -15,14 +16,11 @@ public class ModComponentTypes {
     public static final DeferredRegister<ComponentType<?>> REGISTRY = DeferredRegister
             .create(Registries.DATA_COMPONENT_TYPE, RollingStones.MOD_ID);
 
-    public static final ComponentType<ItemUpgradesComponent> UPGRADES = register("upgrades", ItemUpgradesComponent.CODEC
-//            , ItemUpgradesComponent.PACKET_CODEC
-    );
-    public static final ComponentType<ItemUpgradesComponent> STORED_UPGRADES = register("stored_upgrades", ItemUpgradesComponent.CODEC
-//            , ItemUpgradesComponent.PACKET_CODEC
-    );
+    public static final ComponentType<ItemUpgradesComponent> UPGRADES = register("upgrades", ItemUpgradesComponent.CODEC);
+    public static final ComponentType<ItemUpgradesComponent> STORED_UPGRADES = register("stored_upgrades", ItemUpgradesComponent.CODEC);
+	public static final ComponentType<Identifier> CUSTOM_ITEM_MODEL = register("custom_item_model", Identifier.CODEC);
 
-    private static <T> ComponentType<T> register(String name, Codec<T> codec) {
+	private static <T> ComponentType<T> register(String name, Codec<T> codec) {
         return register(name, codec, PacketCodecs.registryCodec(codec));
     }
 

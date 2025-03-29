@@ -6,6 +6,8 @@
 		"minecraft:unbreaking",
 		"minecraft:power",
 		"minecraft:mending",
-		"minecraft:density"
+		"minecraft:density",
+		"minecraft:quick_charge",
+		"minecraft:bane_of_arthropods"
 	]
 }

@@ -8,6 +8,13 @@ version = mod_version
 
 repositories {
     maven { url 'https://maven.neoforged.net/releases' }
+	mavenLocal {
+		content { includeGroup "org.solstice" }
+	}
+	maven {
+		url "https://jitpack.io"
+		content { includeGroup "org.solstice" }
+	}
 }
 
 dependencies {
@@ -17,6 +24,8 @@ dependencies {
         it.mappings("dev.architectury:yarn-mappings-patch-neoforge:$yarn_mappings_patch_version")
     }
     neoForge "net.neoforged:neoforge:$neoforge_version"
+
+	modImplementation "org.solstice:Euclids-Elements:$euclids_elements_version"
 }
 
 loom {
@@ -30,3 +39,4 @@ processResources {
         expand project.properties
     }
 }
+

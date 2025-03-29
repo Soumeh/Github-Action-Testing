@@ -10,8 +10,8 @@
 					"type": "minecraft:multiply",
 					"factor": {
 						"type": "minecraft:linear",
-						"base": 1.5,
-						"per_level_above_first": 1.5
+						"base": 1.25,
+						"per_level_above_first": 0.25
 					}
 				},
 				"requirements": {
@@ -29,7 +29,7 @@
 		"base": 21,
 		"per_level_above_first": 8
 	},
-	"max_level": 1,
+	"max_level": 3,
 	"min_cost": {
 		"base": 1,
 		"per_level_above_first": 8

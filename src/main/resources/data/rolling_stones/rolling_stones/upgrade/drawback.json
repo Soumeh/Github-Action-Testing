@@ -1,0 +1,32 @@
+{
+	"supported_items": "#minecraft:enchantable/crossbow",
+	"max_tier": 3,
+	"slots": [
+		"mainhand",
+		"offhand"
+	],
+	"effects": {
+		"minecraft:crossbow_charge_time": {
+			"type": "minecraft:add",
+			"value": {
+				"type": "minecraft:linear",
+				"base": -0.25,
+				"per_level_above_first": -0.25
+			}
+		},
+		"minecraft:crossbow_charging_sounds": [
+			{
+				"end": "minecraft:item.crossbow.loading_end",
+				"start": "minecraft:item.crossbow.quick_charge_1"
+			},
+			{
+				"end": "minecraft:item.crossbow.loading_end",
+				"start": "minecraft:item.crossbow.quick_charge_2"
+			},
+			{
+				"end": "minecraft:item.crossbow.loading_end",
+				"start": "minecraft:item.crossbow.quick_charge_3"
+			}
+		]
+	}
+}
