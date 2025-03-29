@@ -14,7 +14,7 @@ public class ModItems {
 
     public static final DeferredRegister.Items REGISTRY = DeferredRegister.Items.createItems(RollingStones.MOD_ID);
 
-//	public static final DeferredItem<Item> SMITHING_STONE = register("smithing_stone", Item::new, new Item.Settings());
+	public static final DeferredItem<Item> SMITHING_STONE = register("smithing_stone", Item::new, new Item.Settings());
     public static final DeferredItem<Item> TIER_ONE_DURABILITY_SMITHING_STONE = register("tier_one_durability_smithing_stone",
             settings -> new SmithingStoneItem(Upgrades.DURABILITY, 1, settings),
             new Item.Settings()

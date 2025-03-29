@@ -22,7 +22,6 @@ public class RollingStones {
         ModComponentTypes.REGISTRY.register(bus);
         ModRecipeTypes.REGISTRY.register(bus);
         ModRecipeSerializers.REGISTRY.register(bus);
-		ModEnchantmentEffects.REGISTRY.register(bus);
     }
 
 }

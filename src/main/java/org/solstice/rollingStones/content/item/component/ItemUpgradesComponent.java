@@ -18,7 +18,7 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import org.solstice.rollingStones.content.effectHolder.EffectHolderComponent;
+import org.solstice.euclidsElements.api.effectHolder.item.component.EffectHolderComponent;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
 
 import javax.annotation.Nullable;

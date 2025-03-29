@@ -1,4 +1,4 @@
-package org.solstice.rollingStones.mixin.gameplay;
+package org.solstice.rollingStones.mixin;
 
 import net.minecraft.component.ComponentType;
 import net.minecraft.item.ItemStack;

@@ -5,8 +5,8 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.solstice.euclidsElements.util.IdentifiableRecipeType;
 import org.solstice.rollingStones.RollingStones;
-import org.solstice.rollingStones.util.IdentifiableRecipeType;
 
 public class ModRecipeTypes {
 

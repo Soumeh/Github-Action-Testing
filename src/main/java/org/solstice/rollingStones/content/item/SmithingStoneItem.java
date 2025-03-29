@@ -10,8 +10,8 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import org.solstice.euclidsElements.registry.EuclidsComponentTypes;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
-import org.solstice.rollingStones.registry.ModComponentTypes;
 import org.solstice.rollingStones.registry.ModItems;
 import org.solstice.rollingStones.registry.ModRegistryKeys;
 
@@ -28,15 +28,15 @@ public class SmithingStoneItem extends Item {
         this.tier = tier;
     }
 
-//	public static ItemStack forUpgrade(UpgradeInfo info) {
-//		ItemStack stack = new ItemStack(ModItems.SMITHING_STONE.get());
-//		Identifier upgradeId = info.entry.getKey().orElseThrow().getValue();
-//		Identifier modelId = Registries.ITEM.getId(stack.getItem())
-//				.withPrefixedPath(upgradeId.getNamespace() + "." + upgradeId.getPath() + ".")
-//				.withSuffixedPath(info.tier + ".");
-//		stack.set(ModComponentTypes.CUSTOM_ITEM_MODEL, modelId);
-//		return stack;
-//	}
+	public static ItemStack forUpgrade(UpgradeInfo info) {
+		ItemStack stack = new ItemStack(ModItems.SMITHING_STONE.get());
+		Identifier upgradeId = info.entry.getKey().orElseThrow().getValue();
+		Identifier modelId = Registries.ITEM.getId(stack.getItem())
+				.withPrefixedPath(upgradeId.getNamespace() + "." + upgradeId.getPath() + ".")
+				.withSuffixedPath(info.tier + ".");
+		stack.set(EuclidsComponentTypes.CUSTOM_ITEM_MODEL, modelId);
+		return stack;
+	}
 
     public RegistryEntry<Upgrade> getUpgrade(World world) {
         return this.getUpgrade(world.getRegistryManager());

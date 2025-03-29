@@ -18,7 +18,6 @@ public class ModComponentTypes {
 
     public static final ComponentType<ItemUpgradesComponent> UPGRADES = register("upgrades", ItemUpgradesComponent.CODEC);
     public static final ComponentType<ItemUpgradesComponent> STORED_UPGRADES = register("stored_upgrades", ItemUpgradesComponent.CODEC);
-	public static final ComponentType<Identifier> CUSTOM_ITEM_MODEL = register("custom_item_model", Identifier.CODEC);
 
 	private static <T> ComponentType<T> register(String name, Codec<T> codec) {
         return register(name, codec, PacketCodecs.registryCodec(codec));

@@ -17,6 +17,13 @@ repositories {
 	}
 }
 
+configurations.all {
+	resolutionStrategy {
+		cacheChangingModulesFor 0, 'seconds'
+		cacheDynamicVersionsFor 0, 'seconds'
+	}
+}
+
 dependencies {
     minecraft "net.minecraft:minecraft:$minecraft_version"
     mappings loom.layered {
@@ -25,7 +32,7 @@ dependencies {
     }
     neoForge "net.neoforged:neoforge:$neoforge_version"
 
-	modImplementation "org.solstice:Euclids-Elements:$euclids_elements_version"
+	modImplementation("org.solstice:Euclids-Elements:$euclids_elements_version+") { changing = true }
 }
 
 loom {
@@ -39,4 +46,3 @@ processResources {
         expand project.properties
     }
 }
-

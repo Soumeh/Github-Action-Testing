@@ -21,7 +21,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.dynamic.Codecs;
-import org.solstice.rollingStones.content.effectHolder.EffectHolder;
+import org.solstice.euclidsElements.api.effectHolder.EffectHolder;
 import org.solstice.rollingStones.registry.ModRegistryKeys;
 
 import java.util.List;
@@ -67,7 +67,7 @@ public record Upgrade (
     public static MutableText getFullName(RegistryEntry<Upgrade> upgrade, int tier) {
         MutableText name = getName(upgrade);
 
-        int maxTier = upgrade.value().getMaxTier();
+        int maxTier = upgrade.value().getDefinition().getMaxLevel();
         if (maxTier != 1) {
             Text tierTooltip = Text.translatable("upgrade.tiers", tier, maxTier);
 //            Text tierTooltip = Text.translatable("upgrade.tiers",
@@ -94,7 +94,7 @@ public record Upgrade (
         ).apply(instance, Definition::new));
 
         @Override
-        public int getMaxTier() {
+        public int getMaxLevel() {
             return this.maxTier;
         }
 

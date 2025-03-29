@@ -12,8 +12,8 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
+import org.solstice.euclidsElements.util.CodecRecipeSerializer;
 import org.solstice.rollingStones.registry.ModRecipeTypes;
-import org.solstice.rollingStones.util.CodecRecipeSerializer;
 
 import java.util.Optional;
 
