@@ -4,8 +4,10 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"AnvilMenuMixin",
+		"EnchantmentMixin",
 		"ItemEnchantmentsComponentMixin",
-		"ItemStackMixin"
+		"ItemStackMixin",
+		"MiningToolItemMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

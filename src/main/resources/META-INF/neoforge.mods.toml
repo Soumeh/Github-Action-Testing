@@ -9,7 +9,7 @@ displayName = "Rolling Stones"
 authors = "Solstice"
 description = "Equipment progression overhaul mod that replaces stat upgrading enchantments with unique upgrades."
 displayURL="https://github.com/Solstace-MC/Rolling-Stones"
-logoFile = "assets/rolling_stones/icon.png"
+logoFile = "assets/${mod_id}/icon.png"
 
 [[dependencies."${mod_id}"]]
 modId = "neoforge"
@@ -21,7 +21,7 @@ side = "BOTH"
 [[dependencies."${mod_id}"]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.1,)"
+versionRange = "[1.21.1,1.21.2]"
 ordering = "NONE"
 side = "BOTH"
 

@@ -38,8 +38,6 @@ public record Upgrade (
 
     public static final Codec<RegistryEntry<Upgrade>> ENTRY_CODEC = RegistryFixedCodec.of(ModRegistryKeys.UPGRADE);
 
-    public static final PacketCodec<RegistryByteBuf, RegistryEntry<Upgrade>> ENTRY_PACKET_CODEC = PacketCodecs.registryEntry(ModRegistryKeys.UPGRADE);
-
 
     @Override
     public ComponentMap getEffects() {
