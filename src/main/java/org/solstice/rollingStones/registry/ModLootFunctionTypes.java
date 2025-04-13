@@ -1,7 +1,6 @@
 package org.solstice.rollingStones.registry;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.loot.entry.LootPoolEntryType;
 import net.minecraft.loot.function.LootFunction;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.registry.Registries;
