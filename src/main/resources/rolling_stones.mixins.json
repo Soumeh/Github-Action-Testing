@@ -4,10 +4,16 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"AnvilMenuMixin",
+		"BowItemMixin",
 		"EnchantmentMixin",
 		"ItemEnchantmentsComponentMixin",
 		"ItemStackMixin",
+		"LivingEntityMixin",
 		"MiningToolItemMixin"
+	],
+	"client": [
+		"client.AbstractClientPlayerEntityMixin",
+		"client.ModelPredicateProviderRegistryMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

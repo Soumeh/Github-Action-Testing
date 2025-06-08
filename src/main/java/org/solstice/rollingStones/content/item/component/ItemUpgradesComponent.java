@@ -10,7 +10,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import org.solstice.euclidsElements.api.effectHolder.item.component.EffectHolderComponent;
+import org.solstice.euclidsElements.effectHolder.api.component.EffectHolderComponent;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
 
 import java.util.Map;

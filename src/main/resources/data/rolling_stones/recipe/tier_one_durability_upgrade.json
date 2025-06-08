@@ -1,0 +1,12 @@
+{
+	"type": "rolling_stones:smithing_upgrade",
+
+	"base": {
+		"item": "rolling_stones:simple_smithing_stone"
+	},
+	"material": {
+		"item": "minecraft:cobblestone"
+	},
+	"upgrade": "rolling_stones:durability",
+	"tier": 1
+}

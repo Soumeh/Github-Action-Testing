@@ -5,7 +5,7 @@ import net.minecraft.registry.RegistryKey;
 import org.solstice.rollingStones.RollingStones;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
 
-public class ModRegistryKeys {
+public class RollingRegistryKeys {
 
     public static final RegistryKey<Registry<Upgrade>> UPGRADE = of("upgrade");
 

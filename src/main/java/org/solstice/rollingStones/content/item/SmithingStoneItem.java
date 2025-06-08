@@ -12,12 +12,12 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
-import org.solstice.euclidsElements.registry.EuclidsComponentTypes;
+import org.solstice.euclidsElements.content.registry.EuclidsComponentTypes;
 import org.solstice.rollingStones.content.item.component.ItemUpgradesComponent;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
-import org.solstice.rollingStones.registry.ModComponentTypes;
-import org.solstice.rollingStones.registry.ModItems;
-import org.solstice.rollingStones.registry.ModRegistryKeys;
+import org.solstice.rollingStones.registry.RollingComponentTypes;
+import org.solstice.rollingStones.registry.RollingItems;
+import org.solstice.rollingStones.registry.RollingRegistryKeys;
 
 import java.util.List;
 
@@ -33,13 +33,13 @@ public class SmithingStoneItem extends Item {
     }
 
 	public static ItemStack forUpgrade(RegistryEntry<Upgrade> entry, int tier) {
-		ItemStack stack = new ItemStack(ModItems.SMITHING_STONE.get());
+		ItemStack stack = new ItemStack(RollingItems.SMITHING_STONE);
 		Identifier id = entry.getKey().orElseThrow().getValue();
 		Identifier modelId = Registries.ITEM.getId(stack.getItem())
 				.withPrefixedPath(id.getNamespace() + "." + id.getPath() + ".")
 				.withSuffixedPath(tier + ".");
 		stack.set(EuclidsComponentTypes.CUSTOM_ITEM_MODEL, modelId);
-		stack.set(ModComponentTypes.STORED_UPGRADES, ItemUpgradesComponent.single(entry, tier));
+		stack.set(RollingComponentTypes.STORED_UPGRADES, ItemUpgradesComponent.single(entry, tier));
 		stack.set(DataComponentTypes.RARITY, Rarity.values()[tier-1]);
 		return stack;
 	}
@@ -49,7 +49,7 @@ public class SmithingStoneItem extends Item {
     }
 
     public RegistryEntry<Upgrade> getUpgrade(RegistryWrapper.WrapperLookup lookup) {
-        return lookup.getWrapperOrThrow(ModRegistryKeys.UPGRADE).getOrThrow(this.upgrade);
+        return lookup.getWrapperOrThrow(RollingRegistryKeys.UPGRADE).getOrThrow(this.upgrade);
     }
 
     public int getTier() {

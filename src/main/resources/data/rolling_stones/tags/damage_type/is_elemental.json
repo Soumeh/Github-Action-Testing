@@ -1,0 +1,9 @@
+{
+	"values": [
+		"#minecraft:is_fire",
+		"#minecraft:is_freezing",
+		"#minecraft:is_lightning",
+		"minecraft:dragon_breath",
+		"minecraft:spit"
+	]
+}

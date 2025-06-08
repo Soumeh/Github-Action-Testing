@@ -4,14 +4,13 @@
     "item.upgrades": "Upgrades:",
     "item.attributes": "Attributes:",
 
-    "item.rolling_stones.tier_one_durability_smithing_stone": "Durability Smithing Stone",
-    "item.rolling_stones.tier_two_durability_smithing_stone": "Durability Smithing Stone",
-    "item.rolling_stones.tier_three_durability_smithing_stone": "Durability Smithing Stone",
-    "item.smithing_stone.tooltip": "+%s %s",
-    "upgrade.tiers": " [%s/%s]",
+	"enchantment.rolling_stones.weird_dude.desc": "Increased damage to weird mobs",
+	"enchantment.rolling_stones.humanoid.desc": "Increased damage to humanoids",
+	"enchantment.rolling_stones.impact_protection.desc": "Increased resistance to fire, air, water and earth",
+	"enchantment.rolling_stones.elemental_ward.desc": "Increased resistance to explosions, falls and collision",
 
-    "upgrade.rolling_stones.durability": "Durability",
-    "upgrade.rolling_stones.sharpness": "Sharpness",
-    "upgrade.rolling_stones.efficiency": "Efficiency",
-    "upgrade.rolling_stones.protection": "Protection"
+	"container.rolling_stones.strongbox": "Strongbox",
+
+    "item.smithing_stone.tooltip": "+%s %s",
+    "upgrade.tiers": " [%s/%s]"
 }

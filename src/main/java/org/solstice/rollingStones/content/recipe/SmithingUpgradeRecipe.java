@@ -1,5 +1,6 @@
 package org.solstice.rollingStones.content.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.DataComponentTypes;
@@ -12,33 +13,34 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
-import org.solstice.euclidsElements.util.CodecRecipeSerializer;
-import org.solstice.rollingStones.registry.ModRecipeTypes;
+import org.solstice.rollingStones.content.upgrade.Upgrade;
+import org.solstice.rollingStones.registry.RollingRecipeSerializers;
+import org.solstice.rollingStones.registry.RollingRecipeTypes;
 
 import java.util.Optional;
 
 public record SmithingUpgradeRecipe (
-        Ingredient template,
         Ingredient base,
-        Ingredient addition
+        Ingredient material,
+		RegistryEntry<Upgrade> upgrade,
+		int tier
 ) implements SmithingRecipe {
 
     public static final MapCodec<SmithingUpgradeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("template").forGetter(SmithingUpgradeRecipe::template),
-            Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("base").forGetter(SmithingUpgradeRecipe::base),
-            Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("addition").forGetter(SmithingUpgradeRecipe::addition)
+		Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("base").forGetter(SmithingUpgradeRecipe::base),
+		Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("material").forGetter(SmithingUpgradeRecipe::material),
+		Upgrade.ENTRY_CODEC.fieldOf("upgrade").forGetter(SmithingUpgradeRecipe::upgrade),
+		Codec.INT.fieldOf("tier").forGetter(SmithingUpgradeRecipe::tier)
     ).apply(instance, SmithingUpgradeRecipe::new));
-
-    public static final RecipeSerializer<SmithingUpgradeRecipe> SERIALIZER = new CodecRecipeSerializer<>(CODEC);
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipeTypes.SMITHING_UPGRADE.get();
+        return RollingRecipeTypes.SMITHING_UPGRADE;
     }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return RollingRecipeSerializers.SMITHING_UPGRADE;
     }
 
     @Override
@@ -76,22 +78,22 @@ public record SmithingUpgradeRecipe (
 
     @Override
     public boolean matches(SmithingRecipeInput input, World world) {
-        return this.template.test(input.template()) && this.base.test(input.base()) && this.addition.test(input.addition());
+        return this.base.test(input.template()) && this.material.test(input.addition());
     }
 
     @Override
     public boolean testTemplate(ItemStack stack) {
-        return this.template.test(stack);
-    }
-
-    @Override
-    public boolean testBase(ItemStack stack) {
         return this.base.test(stack);
     }
 
     @Override
+    public boolean testBase(ItemStack stack) {
+		return stack.isIn(this.upgrade.value().getDefinition().getSupportedItems());
+    }
+
+    @Override
     public boolean testAddition(ItemStack stack) {
-        return this.addition.test(stack);
+        return this.material.test(stack);
     }
 
 }

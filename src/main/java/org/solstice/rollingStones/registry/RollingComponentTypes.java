@@ -6,31 +6,30 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraft.registry.Registry;
+import org.solstice.euclidsElements.EuclidsElements;
 import org.solstice.rollingStones.RollingStones;
 import org.solstice.rollingStones.content.item.component.ItemUpgradesComponent;
 
-public class ModComponentTypes {
+public class RollingComponentTypes {
 
-    public static final DeferredRegister<ComponentType<?>> REGISTRY = DeferredRegister
-            .create(Registries.DATA_COMPONENT_TYPE, RollingStones.MOD_ID);
+	public static void init() {}
 
     public static final ComponentType<ItemUpgradesComponent> UPGRADES = register("upgrades", ItemUpgradesComponent.CODEC);
     public static final ComponentType<ItemUpgradesComponent> STORED_UPGRADES = register("stored_upgrades", ItemUpgradesComponent.CODEC);
+	public static final ComponentType<Boolean> UPGRADE_GLINT_OVERRIDE = register("upgrade_glint_override", Codec.BOOL);
 
 	private static <T> ComponentType<T> register(String name, Codec<T> codec) {
-        return register(name, codec, PacketCodecs.registryCodec(codec));
-    }
+		return register(name, codec, PacketCodecs.registryCodec(codec));
+	}
 
-    private static <T> ComponentType<T> register(String name, Codec<T> codec, PacketCodec<RegistryByteBuf, T> packetCodec) {
-        ComponentType<T> component = ComponentType.<T>builder()
-                .codec(codec)
-                .packetCodec(packetCodec)
-                .cache()
-                .build();
-        REGISTRY.register(name, () -> component);
-        return component;
-    }
+	private static <T> ComponentType<T> register(String name, Codec<T> codec, PacketCodec<RegistryByteBuf, T> packetCodec) {
+		ComponentType<T> component = ComponentType.<T>builder()
+			.codec(codec)
+			.packetCodec(packetCodec)
+			.cache()
+			.build();
+		return Registry.register(Registries.DATA_COMPONENT_TYPE, RollingStones.of(name), component);
+	}
 
 }
