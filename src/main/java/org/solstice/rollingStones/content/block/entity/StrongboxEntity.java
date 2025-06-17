@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.solstice.rollingStones.registry.RollingBlockEntityTypes;
 
-public class StrongboxBlockEntity extends LootableContainerBlockEntity implements LidOpenable {
+public class StrongboxEntity extends LootableContainerBlockEntity implements LidOpenable {
 
 	@Override
 	protected Text getContainerName() {
@@ -49,7 +49,7 @@ public class StrongboxBlockEntity extends LootableContainerBlockEntity implement
 	private float animationProgress = 0;
 	private float lastAnimationProgress = 0;
 
-	public StrongboxBlockEntity(BlockPos pos, BlockState state) {
+	public StrongboxEntity(BlockPos pos, BlockState state) {
 		super(RollingBlockEntityTypes.STRONGBOX, pos, state);
 		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
 		this.stateManager = new ViewerCountManager() {
@@ -60,7 +60,7 @@ public class StrongboxBlockEntity extends LootableContainerBlockEntity implement
 
 			@Override
 			protected void onContainerClose(World world, BlockPos pos, BlockState state) {
-				StrongboxBlockEntity.this.scheduleUpdate(world, pos);
+				StrongboxEntity.this.scheduleUpdate(world, pos);
 			}
 
 			@Override
@@ -70,7 +70,7 @@ public class StrongboxBlockEntity extends LootableContainerBlockEntity implement
 			protected boolean isPlayerViewing(PlayerEntity player) {
 				if (player.currentScreenHandler instanceof GenericContainerScreenHandler container) {
 					Inventory inventory = container.getInventory();
-					return inventory == StrongboxBlockEntity.this;
+					return inventory == StrongboxEntity.this;
 				}
 				return false;
 			}
@@ -182,7 +182,7 @@ public class StrongboxBlockEntity extends LootableContainerBlockEntity implement
 		return this.openProgress == MAX_OPEN_PROGRESS;
 	}
 
-	public static void clientTick(World w, BlockPos p, BlockState s, StrongboxBlockEntity entity) {
+	public static void clientTick(World w, BlockPos p, BlockState s, StrongboxEntity entity) {
 		entity.animateLid();
 	}
 

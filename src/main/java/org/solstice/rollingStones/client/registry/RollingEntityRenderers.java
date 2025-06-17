@@ -5,7 +5,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 import org.solstice.rollingStones.RollingStones;
-import org.solstice.rollingStones.client.content.entity.renderer.StrongboxBlockEntityRenderer;
+import org.solstice.rollingStones.client.content.entity.renderer.StrongboxRenderer;
 import org.solstice.rollingStones.registry.RollingBlockEntityTypes;
 
 public class RollingEntityRenderers {
@@ -14,8 +14,8 @@ public class RollingEntityRenderers {
 	public static final EntityModelLayer STRONGBOX = new EntityModelLayer(STRONGBOX_ID, "main");
 
 	public static void init() {
-		BlockEntityRendererFactories.register(RollingBlockEntityTypes.STRONGBOX, StrongboxBlockEntityRenderer::new);
-		EntityModelLayerRegistry.registerModelLayer(STRONGBOX, StrongboxBlockEntityRenderer::getTexturedModelData);
+		BlockEntityRendererFactories.register(RollingBlockEntityTypes.STRONGBOX, StrongboxRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(STRONGBOX, StrongboxRenderer::getTexturedModelData);
 	}
 
 }

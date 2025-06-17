@@ -1,0 +1,11 @@
+{
+	"type": "rolling_stones:smithing_upgrade",
+
+	"base": {
+		"tag": "minecraft:equipment"
+	},
+	"upgrade": {
+		"item": "rolling_stones:simple_smithing_stone"
+	},
+	"tier": 1
+}

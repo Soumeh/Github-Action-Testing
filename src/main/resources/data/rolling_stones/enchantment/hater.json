@@ -1,7 +1,7 @@
 {
 	"anvil_cost": 2,
 	"description": {
-		"translate": "enchantment.rolling_stones.humanoid"
+		"translate": "enchantment.rolling_stones.hater"
 	},
 	"effects": {
 		"minecraft:damage": [
@@ -18,7 +18,7 @@
 					"condition": "minecraft:entity_properties",
 					"entity": "this",
 					"predicate": {
-						"type": "#minecraft:sensitive_to_bane_of_arthropods"
+						"type": "#rolling_stones:sensitive_to_hater"
 					}
 				}
 			}
@@ -46,7 +46,7 @@
 							"condition": "minecraft:entity_properties",
 							"entity": "this",
 							"predicate": {
-								"type": "#minecraft:sensitive_to_bane_of_arthropods"
+								"type": "#rolling_stones:sensitive_to_hater"
 							}
 						},
 						{
@@ -65,7 +65,7 @@
 		"base": 25,
 		"per_level_above_first": 8
 	},
-	"max_level": 5,
+	"max_level": 3,
 	"min_cost": {
 		"base": 5,
 		"per_level_above_first": 8

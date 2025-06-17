@@ -1,4 +1,10 @@
 {
+	"advancements.story.rolling_stones.upgrade_item.title": "Upgrade Get!",
+	"advancements.story.rolling_stones.upgrade_item.description": "Upgrade an item using a Smithing Stone",
+
+	"advancements.story.rolling_stones.upgrade_item_fully.title": "Decked Out",
+	"advancements.story.rolling_stones.upgrade_item_fully.description": "Fully upgrade an item",
+
     "item.minecraft.smithing_template.upgrade": "Decorations:",
     "item.enchantments": "Enchantments:",
     "item.upgrades": "Upgrades:",

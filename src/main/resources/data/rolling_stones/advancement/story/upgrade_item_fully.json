@@ -1,0 +1,29 @@
+{
+	"parent": "minecraft:story/mine_diamond",
+	"criteria": {
+		"upgraded_item_fully": {
+			"trigger": "rolling_stones:upgraded_item",
+			"conditions": {
+				"item": {
+					"predicates": {
+						"rolling_stones:upgrades": [
+							{
+								"upgrades": "#rolling_stones:obtainable",
+								"max_tier": true
+							}
+						]
+					}
+				}
+			}
+		}
+	},
+	"display": {
+		"icon": { "id": "rolling_stones:simple_smithing_stone" },
+		"title": { "translate": "advancements.story.rolling_stones.upgrade_item_fully.title" },
+		"description": { "translate": "advancements.story.rolling_stones.upgrade_item_fully.description" },
+		"frame": "challenge"
+	},
+	"requirements": [
+		[ "upgraded_item_fully" ]
+	]
+}

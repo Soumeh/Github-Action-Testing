@@ -6,14 +6,14 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.solstice.rollingStones.RollingStones;
-import org.solstice.rollingStones.content.block.entity.StrongboxBlockEntity;
+import org.solstice.rollingStones.content.block.entity.StrongboxEntity;
 
 public class RollingBlockEntityTypes {
 
 	public static void init() {}
 
-	public static final BlockEntityType<StrongboxBlockEntity> STRONGBOX = register("strongbox",
-		BlockEntityType.Builder.create(StrongboxBlockEntity::new, RollingBlocks.STRONGBOX)
+	public static final BlockEntityType<StrongboxEntity> STRONGBOX = register("strongbox",
+		BlockEntityType.Builder.create(StrongboxEntity::new, RollingBlocks.STRONGBOX)
 	);
 
 	public static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType.Builder<T> builder) {

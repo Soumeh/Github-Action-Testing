@@ -1,0 +1,13 @@
+{
+	"type": "rolling_stones:smithing_upgrade",
+
+	"base": {
+		"tag": "minecraft:equipment"
+	},
+	"upgrade": {
+		"item": "rolling_stones:honed_smithing_stone"
+	},
+	"tier": 2,
+	"requires_previous_tier": true
+
+}

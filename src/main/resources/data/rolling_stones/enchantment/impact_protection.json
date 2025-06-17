@@ -12,7 +12,7 @@
 					"per_level_above_first": 0.15
 				},
 				"attribute": "minecraft:generic.explosion_knockback_resistance",
-				"id": "minecraft:enchantment.blast_protection",
+				"id": "rolling_stones:enchantment.impact_protection",
 				"operation": "add_value"
 			}
 		],

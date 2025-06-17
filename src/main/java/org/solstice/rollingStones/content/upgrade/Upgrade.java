@@ -7,6 +7,9 @@ import net.minecraft.component.ComponentMap;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.item.Item;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -35,8 +38,10 @@ public record Upgrade (
 
     public static final Codec<RegistryEntry<Upgrade>> ENTRY_CODEC = RegistryFixedCodec.of(RollingRegistryKeys.UPGRADE);
 
+	public static final PacketCodec<RegistryByteBuf, RegistryEntry<Upgrade>> ENTRY_PACKET_CODEC = PacketCodecs.registryEntry(RollingRegistryKeys.UPGRADE);
 
-    @Override
+
+	@Override
     public ComponentMap getEffects() {
         return this.effects;
     }
@@ -46,13 +51,15 @@ public record Upgrade (
         return this.definition;
     }
 
-    public static MutableText getName(RegistryEntry<Upgrade> upgrade) {
-		if (upgrade.value().description.isPresent()) return upgrade.value().description.get().copy();
-        else return Text.translatable(upgrade.getKey().orElseThrow().getValue().toTranslationKey("upgrade"));
+    public static MutableText getName(RegistryEntry<Upgrade> entry) {
+		Optional<Text> description = entry.value().description;
+		if (description.isPresent()) return description.get().copy();
+
+		return Text.translatable(entry.getKey().orElseThrow().getValue().toTranslationKey("upgrade"));
     }
 
-    public static MutableText getTooltip(RegistryEntry<Upgrade> upgrade, int tier) {
-        Text name = getName(upgrade);
+    public static MutableText getTooltip(RegistryEntry<Upgrade> entry, int tier) {
+        Text name = getName(entry);
         MutableText tooltip = Text.translatable("item.smithing_stone.tooltip", tier, name);
         Texts.setStyleIfAbsent(tooltip, Style.EMPTY.withColor(Formatting.GOLD));
         return tooltip;

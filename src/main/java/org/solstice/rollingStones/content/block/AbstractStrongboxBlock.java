@@ -20,13 +20,13 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
-import org.solstice.rollingStones.content.block.entity.StrongboxBlockEntity;
+import org.solstice.rollingStones.content.block.entity.StrongboxEntity;
 import org.solstice.rollingStones.registry.RollingBlockEntityTypes;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public abstract class AbstractStrongboxBlock extends AbstractChestBlock<StrongboxBlockEntity> {
+public abstract class AbstractStrongboxBlock extends AbstractChestBlock<StrongboxEntity> {
 
 	public static final VoxelShape SHAPE = Block.createCuboidShape(1, 0, 1, 15, 14, 15);
 
@@ -52,7 +52,7 @@ public abstract class AbstractStrongboxBlock extends AbstractChestBlock<Strongbo
 		return false;
 	}
 
-	public AbstractStrongboxBlock(Settings settings, Supplier<BlockEntityType<? extends StrongboxBlockEntity>> supplier) {
+	public AbstractStrongboxBlock(Settings settings, Supplier<BlockEntityType<? extends StrongboxEntity>> supplier) {
 		super(settings, supplier);
 	}
 
@@ -93,19 +93,19 @@ public abstract class AbstractStrongboxBlock extends AbstractChestBlock<Strongbo
 
 	@Override
 	public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new StrongboxBlockEntity(pos, state);
+		return new StrongboxEntity(pos, state);
 	}
 
 	@Override
 	protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-		if (world.getBlockEntity(pos) instanceof StrongboxBlockEntity strongboxBlockEntity)
-			strongboxBlockEntity.onScheduledTick(state, world, pos, random);
+		if (world.getBlockEntity(pos) instanceof StrongboxEntity strongboxEntity)
+			strongboxEntity.onScheduledTick(state, world, pos, random);
 	}
 
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return world.isClient ? validateTicker(type, RollingBlockEntityTypes.STRONGBOX, StrongboxBlockEntity::clientTick) : null;
+		return world.isClient ? validateTicker(type, RollingBlockEntityTypes.STRONGBOX, StrongboxEntity::clientTick) : null;
 	}
 
 	@Override

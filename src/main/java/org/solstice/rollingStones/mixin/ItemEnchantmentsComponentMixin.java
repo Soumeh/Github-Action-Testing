@@ -1,5 +1,7 @@
 package org.solstice.rollingStones.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
@@ -25,15 +27,13 @@ public class ItemEnchantmentsComponentMixin {
     @Shadow @Final Object2IntOpenHashMap<RegistryEntry<Enchantment>> enchantments;
     @Shadow @Final boolean showInTooltip;
 
-    /**
-     * @author Solstice
-     * @reason Annotated enchantment tooltips
-     */
-    @Overwrite
-    public void appendTooltip(Item.TooltipContext context, Consumer<Text> tooltip, TooltipType type) {
+    @WrapMethod(method = "appendTooltip")
+    public void appendTooltip(Item.TooltipContext context, Consumer<Text> tooltip, TooltipType type, Operation<Void> original) {
         if (!this.showInTooltip) return;
 
         RegistryWrapper.WrapperLookup wrapperLookup = context.getRegistryLookup();
+		if (wrapperLookup == null) return;
+
 		RegistryEntryList<Enchantment> orderedEnchantments = wrapperLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT).getOptional(EnchantmentTags.TOOLTIP_ORDER).orElseThrow();
 
         if (!this.enchantments.isEmpty())

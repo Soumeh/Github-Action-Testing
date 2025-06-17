@@ -8,8 +8,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -19,7 +17,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import org.solstice.rollingStones.content.block.entity.StrongboxBlockEntity;
+import org.solstice.rollingStones.content.block.entity.StrongboxEntity;
 import org.solstice.rollingStones.registry.RollingBlockEntityTypes;
 
 import java.util.function.Supplier;
@@ -32,11 +30,11 @@ public class StrongboxBlock extends AbstractStrongboxBlock implements Waterlogga
 	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
 	@Override
-	protected MapCodec<? extends AbstractChestBlock<StrongboxBlockEntity>> getCodec() {
+	protected MapCodec<? extends AbstractChestBlock<StrongboxEntity>> getCodec() {
 		return CODEC;
 	}
 
-	public StrongboxBlock(Settings settings, Supplier<BlockEntityType<? extends StrongboxBlockEntity>> supplier) {
+	public StrongboxBlock(Settings settings, Supplier<BlockEntityType<? extends StrongboxEntity>> supplier) {
 		super(settings, supplier);
 		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(WATERLOGGED, false));
 	}
@@ -51,14 +49,14 @@ public class StrongboxBlock extends AbstractStrongboxBlock implements Waterlogga
 		if (isChestBlocked(world, pos)) return ActionResult.PASS;
 		if (world.isClient) return ActionResult.SUCCESS;
 
-		if (world.getBlockEntity(pos) instanceof StrongboxBlockEntity strongboxBlockEntity) {
-			strongboxBlockEntity.incrementOpening(world, pos);
-			if (strongboxBlockEntity.canOpen()) {
-				player.openHandledScreen(strongboxBlockEntity);
+		if (world.getBlockEntity(pos) instanceof StrongboxEntity strongboxEntity) {
+			strongboxEntity.incrementOpening(world, pos);
+			if (strongboxEntity.canOpen()) {
+				player.openHandledScreen(strongboxEntity);
 				player.incrementStat(this.getOpenStat());
 				PiglinBrain.onGuardedBlockInteracted(player, true);
 			} else {
-				strongboxBlockEntity.scheduleUpdate(world, pos);
+				strongboxEntity.scheduleUpdate(world, pos);
 			}
 		}
 

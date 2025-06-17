@@ -53,7 +53,7 @@ public class SetUpgradesLootFunction extends ConditionalLootFunction {
 	@Override
 	protected ItemStack process(ItemStack stack, LootContext context) {
 		ItemUpgradesComponent component = stack.get(RollingComponentTypes.UPGRADES);
-		ItemUpgradesComponent.Builder builder = ItemUpgradesComponent.Builder.of(component);
+		ItemUpgradesComponent.Builder builder = ItemUpgradesComponent.Builder.from(component);
 
 		if (this.add) this.upgrades.forEach((upgrade, level) ->
 			builder.set(upgrade, MathHelper.clamp(builder.getTier(upgrade) + level.nextInt(context), 0, 255))

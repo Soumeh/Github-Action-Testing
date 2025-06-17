@@ -9,7 +9,7 @@ import org.solstice.rollingStones.content.upgrade.Upgrades;
 import org.solstice.rollingStones.registry.RollingEnchantments;
 import org.solstice.rollingStones.registry.RollingRegistryKeys;
 
-public class RollingStonesDataGeneration implements DataGeneratorEntrypoint {
+public class RollingStonesDataGenerator implements DataGeneratorEntrypoint {
 
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator generator) {

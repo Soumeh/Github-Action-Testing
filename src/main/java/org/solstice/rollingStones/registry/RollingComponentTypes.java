@@ -15,8 +15,8 @@ public class RollingComponentTypes {
 
 	public static void init() {}
 
-    public static final ComponentType<ItemUpgradesComponent> UPGRADES = register("upgrades", ItemUpgradesComponent.CODEC);
-    public static final ComponentType<ItemUpgradesComponent> STORED_UPGRADES = register("stored_upgrades", ItemUpgradesComponent.CODEC);
+    public static final ComponentType<ItemUpgradesComponent> UPGRADES = register("upgrades", ItemUpgradesComponent.CODEC, ItemUpgradesComponent.PACKET_CODEC);
+    public static final ComponentType<ItemUpgradesComponent> STORED_UPGRADES = register("stored_upgrades", ItemUpgradesComponent.CODEC, ItemUpgradesComponent.PACKET_CODEC);
 	public static final ComponentType<Boolean> UPGRADE_GLINT_OVERRIDE = register("upgrade_glint_override", Codec.BOOL);
 
 	private static <T> ComponentType<T> register(String name, Codec<T> codec) {

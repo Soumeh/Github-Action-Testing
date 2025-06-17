@@ -9,7 +9,8 @@
 		"ItemEnchantmentsComponentMixin",
 		"ItemStackMixin",
 		"LivingEntityMixin",
-		"MiningToolItemMixin"
+		"MiningToolItemMixin",
+		"SmithingScreenHandlerMixin"
 	],
 	"client": [
 		"client.AbstractClientPlayerEntityMixin",
