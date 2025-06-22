@@ -14,9 +14,9 @@ public class RollingCommands {
 			RollingStones.of("upgrade"),
 			UpgradeArgumentType.class, ConstantArgumentSerializer.of(UpgradeArgumentType::upgrade)
 		);
-		CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> {
-			UpgradeCommand.register(dispatcher, access);
-		});
+		CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) ->
+			UpgradeCommand.register(dispatcher, access)
+		);
 	}
 
 }

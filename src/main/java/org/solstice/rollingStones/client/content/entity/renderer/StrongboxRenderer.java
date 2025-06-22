@@ -1,6 +1,5 @@
 package org.solstice.rollingStones.client.content.entity.renderer;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;

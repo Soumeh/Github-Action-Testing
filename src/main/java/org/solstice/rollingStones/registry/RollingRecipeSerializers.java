@@ -11,7 +11,7 @@ import org.solstice.rollingStones.content.recipe.SmithingUpgradeRecipe;
 
 public class RollingRecipeSerializers {
 
-	public static void init() {};
+	public static void init() {}
 
     public static final RecipeSerializer<SmithingUpgradeRecipe> SMITHING_UPGRADE = register("smithing_upgrade", SmithingUpgradeRecipe.CODEC);
 

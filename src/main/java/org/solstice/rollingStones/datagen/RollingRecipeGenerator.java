@@ -24,7 +24,6 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.solstice.rollingStones.api.recipe.SmithingUpgradeRecipeBuilder;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
-import org.solstice.rollingStones.registry.RollingUpgrades;
 import org.solstice.rollingStones.registry.RollingItems;
 import org.solstice.rollingStones.registry.RollingRegistryKeys;
 
