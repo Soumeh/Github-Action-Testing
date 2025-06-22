@@ -16,37 +16,42 @@ import java.util.Optional;
 
 public class UpgradedItemCriterion extends AbstractCriterion<UpgradedItemCriterion.Conditions> {
 
+	@Override
 	public Codec<Conditions> getConditionsCodec() {
 		return Conditions.CODEC;
 	}
 
 	public void trigger(ServerPlayerEntity player, ItemStack stack, Identifier recipeId) {
-		this.trigger(player, conditions -> conditions.matches(stack, recipeId));
+		System.out.println("AAAAAaaaaaaaaaaaaAAAAAAAA?");
+		this.trigger(player, conditions -> {
+			var test = conditions.matches(stack, recipeId);
+			System.out.println(test);
+			return test;
+		});
 	}
 
 	public record Conditions (
 		Optional<LootContextPredicate> player,
 		Optional<ItemPredicate> item,
-		Identifier recipeId
+		Optional<Identifier> recipeId
 	) implements AbstractCriterion.Conditions {
 
 		public static final Codec<Conditions> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(Conditions::player),
 			ItemPredicate.CODEC.optionalFieldOf("item").forGetter(Conditions::item),
-			Identifier.CODEC.optionalFieldOf("recipe_id", Identifier.of("", "")).forGetter(Conditions::recipeId)
+			Identifier.CODEC.optionalFieldOf("recipe_id").forGetter(Conditions::recipeId)
 		).apply(instance, Conditions::new));
 
 		public static AdvancementCriterion<Conditions> any() {
 			return RollingAdvancementCriteria.UPGRADED_ITEM.create(
-				new Conditions(Optional.empty(), Optional.empty(), Identifier.of("", ""))
-
-//				new Conditions(Optional.empty(), Identifier.of("", ""), NumberRange.IntRange.ANY)
+				new Conditions(Optional.empty(), Optional.empty(), Optional.empty())
 			);
 		}
 
 		public boolean matches(ItemStack stack, Identifier recipeId) {
 			if (this.item.isPresent() && !this.item.get().test(stack)) return false;
-			return this.recipeId.equals(recipeId);
+			if (this.recipeId.isPresent() && !this.recipeId.get().equals(recipeId)) return false;
+			return true;
 		}
 
 	}

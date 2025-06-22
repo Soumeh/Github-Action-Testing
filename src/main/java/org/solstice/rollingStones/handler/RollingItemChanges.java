@@ -2,8 +2,22 @@ package org.solstice.rollingStones.handler;
 
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentLevelEntry;
+import net.minecraft.item.EnchantedBookItem;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
 import org.solstice.rollingStones.content.item.SmithingStoneItem;
+import org.solstice.rollingStones.content.upgrade.Upgrade;
 import org.solstice.rollingStones.registry.RollingRegistryKeys;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class RollingItemChanges {
 
@@ -12,11 +26,30 @@ public class RollingItemChanges {
 	}
 
 	public static void addSmithingStones(FabricItemGroupEntries entries) {
-		entries.getContext().lookup().getWrapperOrThrow(RollingRegistryKeys.UPGRADE).streamEntries().forEach(entry -> {
-			int maxTier = entry.value().getDefinition().getMaxLevel();
-			for (int tier = 1; tier <= maxTier; tier++)
-				entries.add(SmithingStoneItem.forUpgrade(entry, tier));
+		entries.getContext().lookup().getOptionalWrapper(RollingRegistryKeys.UPGRADE).ifPresent(registry -> {
+			addMaxTierSmithingStones(entries, registry);
+			addAllTierSmithingStones(entries, registry);
 		});
+	}
+
+	private static void addMaxTierSmithingStones(ItemGroup.Entries entries, RegistryWrapper<Upgrade> registryWrapper) {
+		registryWrapper.streamEntries()
+			.map(RollingItemChanges::maxTier)
+			.forEach(stack -> entries.add(stack, ItemGroup.StackVisibility.PARENT_TAB_ONLY));
+	}
+
+	private static ItemStack maxTier(RegistryEntry<Upgrade> entry) {
+		return SmithingStoneItem.forUpgrade(entry, entry.value().getDefinition().getMaxLevel());
+	}
+
+	private static void addAllTierSmithingStones(ItemGroup.Entries entries, RegistryWrapper<Upgrade> registryWrapper) {
+		registryWrapper.streamEntries()
+			.flatMap(RollingItemChanges::allTiers)
+			.forEach(stack -> entries.add(stack, ItemGroup.StackVisibility.SEARCH_TAB_ONLY));
+	}
+
+	private static Stream<ItemStack> allTiers(RegistryEntry<Upgrade> entry) {
+		return IntStream.rangeClosed(1, entry.value().getDefinition().getMaxLevel()).mapToObj(tier -> SmithingStoneItem.forUpgrade(entry, tier));
 	}
 
 }

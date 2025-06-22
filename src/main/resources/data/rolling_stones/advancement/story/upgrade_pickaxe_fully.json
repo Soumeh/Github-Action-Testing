@@ -1,0 +1,34 @@
+{
+	"parent": "minecraft:story/mine_diamond",
+	"criteria": {
+		"upgrade_pickaxe_fully": {
+			"trigger": "rolling_stones:upgraded_item",
+			"conditions": {
+				"item": {
+					"items": "#minecraft:pickaxes",
+					"predicates": {
+						"rolling_stones:upgrades": [
+							{
+								"upgrades": "rolling_stones:durability",
+								"tiers": 3
+							},
+							{
+								"upgrades": "rolling_stones:efficiency",
+								"tiers": 3
+							}
+						]
+					}
+				}
+			}
+		}
+	},
+	"display": {
+		"icon": { "id": "rolling_stones:simple_smithing_stone" },
+		"title": { "translate": "advancements.story.rolling_stones.upgrade_pickaxe_fully.title" },
+		"description": { "translate": "advancements.story.rolling_stones.upgrade_pickaxe_fully.description" },
+		"frame": "challenge"
+	},
+	"requirements": [
+		[ "upgrade_pickaxe_fully" ]
+	]
+}

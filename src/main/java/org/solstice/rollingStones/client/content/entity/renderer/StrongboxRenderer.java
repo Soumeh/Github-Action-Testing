@@ -34,7 +34,7 @@ public class StrongboxRenderer implements BlockEntityRenderer<StrongboxEntity> {
 		ModelData model = new ModelData();
 		ModelPartData modelPartData = model.getRoot();
 
-		modelPartData.addChild("test", ModelPartBuilder.create().uv(0, 0).cuboid(0.0F, 0.0F, 0.0F, 16.0F, 16.0F, 16.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		modelPartData.addChild("upgrade", ModelPartBuilder.create().uv(0, 0).cuboid(0.0F, 0.0F, 0.0F, 16.0F, 16.0F, 16.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
 		modelPartData.addChild("lid", ModelPartBuilder.create().uv(0, 0).cuboid(1.0F, 0.0F, 0.0F, 14.0F, 5.0F, 14.0F), ModelTransform.pivot(0.0F, 9.0F, 1.0F));
 		modelPartData.addChild("bottom", ModelPartBuilder.create().uv(0, 19).cuboid(1.0F, 0.0F, 1.0F, 14.0F, 10.0F, 14.0F), ModelTransform.NONE);

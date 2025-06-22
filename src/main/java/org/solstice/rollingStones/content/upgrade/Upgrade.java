@@ -6,7 +6,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -15,6 +17,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.entry.RegistryFixedCodec;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.dynamic.Codecs;
@@ -40,7 +43,6 @@ public record Upgrade (
 
 	public static final PacketCodec<RegistryByteBuf, RegistryEntry<Upgrade>> ENTRY_PACKET_CODEC = PacketCodecs.registryEntry(RollingRegistryKeys.UPGRADE);
 
-
 	@Override
     public ComponentMap getEffects() {
         return this.effects;
@@ -50,6 +52,10 @@ public record Upgrade (
     public Definition getDefinition() {
         return this.definition;
     }
+
+	public boolean isAcceptableItem(ItemStack stack) {
+		return this.definition.supportedItems().contains(stack.getRegistryEntry());
+	}
 
     public static MutableText getName(RegistryEntry<Upgrade> entry) {
 		Optional<Text> description = entry.value().description;
@@ -65,20 +71,31 @@ public record Upgrade (
         return tooltip;
     }
 
+	public static MutableText getSimpleName(RegistryEntry<Upgrade> upgrade, int tier) {
+		MutableText name = getName(upgrade);
+
+		int maxTier = upgrade.value().getDefinition().getMaxLevel();
+		if (tier != 1 || maxTier != 1) {
+			name.append(ScreenTexts.SPACE).append(Text.translatable("enchantment.level." + tier));
+		}
+
+		Texts.setStyleIfAbsent(name, Style.EMPTY.withColor(Formatting.GOLD));
+		return name;
+	}
+
     public static MutableText getFullName(RegistryEntry<Upgrade> upgrade, int tier) {
         MutableText name = getName(upgrade);
 
+		Text tierTooltip;
         int maxTier = upgrade.value().getDefinition().getMaxLevel();
-        if (maxTier != 1) {
-            Text tierTooltip = Text.translatable("upgrade.tiers", tier, maxTier);
-//            Text tierTooltip = Text.translatable("upgrade.tiers",
-//                    Text.translatable("enchantment.level." + tier),
-//                    Text.translatable("enchantment.level." + maxTier)
-//            );
-            name.append(tierTooltip);
-        }
+        if (maxTier != 1 && tier < maxTier) {
+            tierTooltip = Text.translatable("upgrade.tiers", tier, maxTier);
+        } else {
+			tierTooltip = Text.translatable("upgrade.tier", tier);
+		}
+		name.append(tierTooltip);
 
-        Texts.setStyleIfAbsent(name, Style.EMPTY.withColor(Formatting.GOLD));
+		Texts.setStyleIfAbsent(name, Style.EMPTY.withColor(Formatting.GOLD));
         return name;
     }
 

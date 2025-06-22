@@ -23,6 +23,7 @@ public class RollingStones implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		RollingRegistryKeys.init();
 		RollingRegistries.init();
 		RollingAttributes.init();
 
@@ -37,9 +38,10 @@ public class RollingStones implements ModInitializer {
 		RollingPredicates.init();
 
 		RollingTags.init();
+		RollingCommands.init();
 
-		DefaultItemComponentEvents.MODIFY.register(RollingItemChanges::modifyItems);
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(RollingItemChanges::addSmithingStones);
+		DefaultItemComponentEvents.MODIFY.register(RollingItemChanges::modifyItems);
 		RollingLootTableChanges.modifyVillagerTrades();
 		LootTableEvents.MODIFY.register(RollingLootTableChanges::modifyLootTables);
 	}

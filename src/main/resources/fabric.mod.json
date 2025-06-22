@@ -17,7 +17,9 @@
 	"entrypoints": {
 		"main": [ "org.solstice.rollingStones.RollingStones" ],
 		"client": [ "org.solstice.rollingStones.client.RollingStonesClient" ],
-		"fabric-datagen": [ "org.solstice.rollingStones.RollingStonesDataGenerator" ]
+		"fabric-datagen": [
+			"org.solstice.rollingStones.datagen.RollingStonesDataGenerator"
+		]
 	},
 	"mixins": [ "rolling_stones.mixins.json" ],
 	"accessWidener": "rolling_stones.accesswidener",

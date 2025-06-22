@@ -5,7 +5,7 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import org.solstice.euclidsElements.util.recipe.CodecRecipeSerializer;
+import org.solstice.euclidsElements.content.api.recipe.CodecRecipeSerializer;
 import org.solstice.rollingStones.RollingStones;
 import org.solstice.rollingStones.content.recipe.SmithingUpgradeRecipe;
 

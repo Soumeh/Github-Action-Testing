@@ -26,7 +26,7 @@ public abstract class UpgradesPredicate implements ComponentSubPredicate<ItemUpg
 		return this.upgrades;
 	}
 
-	public boolean test(ItemStack itemStack, ItemUpgradesComponent component) {
+	public boolean test(ItemStack stack, ItemUpgradesComponent component) {
 		for (UpgradePredicate predicate : this.upgrades) {
 			if (!predicate.test(component)) return false;
 		}
@@ -42,6 +42,7 @@ public abstract class UpgradesPredicate implements ComponentSubPredicate<ItemUpg
 	}
 
 	public static class Upgrades extends UpgradesPredicate {
+
 		public static final Codec<Upgrades> CODEC = createCodec(Upgrades::new);
 
 		protected Upgrades(List<UpgradePredicate> list) {
@@ -51,9 +52,11 @@ public abstract class UpgradesPredicate implements ComponentSubPredicate<ItemUpg
 		public ComponentType<ItemUpgradesComponent> getComponentType() {
 			return RollingComponentTypes.UPGRADES;
 		}
+
 	}
 
 	public static class StoredUpgrades extends UpgradesPredicate {
+
 		public static final Codec<StoredUpgrades> CODEC = createCodec(StoredUpgrades::new);
 
 		protected StoredUpgrades(List<UpgradePredicate> list) {
@@ -63,6 +66,7 @@ public abstract class UpgradesPredicate implements ComponentSubPredicate<ItemUpg
 		public ComponentType<ItemUpgradesComponent> getComponentType() {
 			return RollingComponentTypes.STORED_UPGRADES;
 		}
+
 	}
 
 }

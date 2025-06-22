@@ -26,50 +26,26 @@ public record ItemUpgradesComponent (
         boolean showInTooltip
 ) implements EffectHolderComponent<Upgrade>, TooltipAppender {
 
-	private static final Codec<Integer> TIER_CODEC = Codec.intRange(0, 255);
+	public static final ItemUpgradesComponent DEFAULT = new ItemUpgradesComponent(new Object2IntOpenHashMap<>(), true);
 
-	private static final Codec<Object2IntOpenHashMap<RegistryEntry<Upgrade>>> INLINE_CODEC = Codec.unboundedMap(Upgrade.ENTRY_CODEC, TIER_CODEC)
-		.xmap(Object2IntOpenHashMap::new, Function.identity());
+	public static final Codec<Integer> TIER_CODEC = Codec.intRange(0, 255);
 
-	private static final Codec<ItemUpgradesComponent> BASE_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-		INLINE_CODEC.fieldOf("levels").forGetter(ItemUpgradesComponent::upgrades),
+	public static final Codec<Object2IntOpenHashMap<RegistryEntry<Upgrade>>> MAP_CODEC = Codec.unboundedMap(Upgrade.ENTRY_CODEC, TIER_CODEC)
+		.xmap(Object2IntOpenHashMap::new, Function.identity()
+	);
+
+	public static final Codec<ItemUpgradesComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+		MAP_CODEC.fieldOf("tiers").forGetter(ItemUpgradesComponent::upgrades),
 		Codec.BOOL.optionalFieldOf("show_in_tooltip", true).forGetter(ItemUpgradesComponent::showInTooltip)
 	).apply(instance, ItemUpgradesComponent::new));
 
-	public static final Codec<ItemUpgradesComponent> CODEC = Codec.withAlternative(
-		BASE_CODEC,
-		INLINE_CODEC,
-		map -> new ItemUpgradesComponent(map, true)
-	);
-
 	public static final PacketCodec<RegistryByteBuf, ItemUpgradesComponent> PACKET_CODEC = PacketCodec.tuple(
 		PacketCodecs.map(Object2IntOpenHashMap::new, Upgrade.ENTRY_PACKET_CODEC, PacketCodecs.VAR_INT),
-		component -> component.upgrades, PacketCodecs.BOOL,
-		component -> component.showInTooltip, ItemUpgradesComponent::new
+		ItemUpgradesComponent::upgrades,
+		PacketCodecs.BOOL,
+		ItemUpgradesComponent::showInTooltip,
+		ItemUpgradesComponent::new
 	);
-
-
-
-
-
-
-
-
-
-
-
-
-//    private static final Codec<Object2IntOpenHashMap<RegistryEntry<Upgrade>>> INLINE_CODEC = Codec.unboundedMap(Upgrade.ENTRY_CODEC, Codec.intRange(0, 255))
-//            .xmap(Object2IntOpenHashMap::new, Function.identity());
-//
-//    public static final Codec<ItemUpgradesComponent> BASE_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-//            INLINE_CODEC.fieldOf("tiers").forGetter(ItemUpgradesComponent::upgrades),
-//            Codec.BOOL.optionalFieldOf("show_in_tooltip", true).forGetter(ItemUpgradesComponent::showInTooltip)
-//    ).apply(instance, ItemUpgradesComponent::new));
-//
-//    public static final Codec<ItemUpgradesComponent> CODEC = Codec.withAlternative(BASE_CODEC, INLINE_CODEC,
-//            upgrades -> new ItemUpgradesComponent(upgrades, true)
-//    );
 
 	public static final Text UPGRADES_TEXT = Text.translatable("item.upgrades").formatted(Formatting.GRAY);
 
@@ -104,10 +80,26 @@ public record ItemUpgradesComponent (
         tooltip.accept(result);
     }
 
+	@Override
+	public boolean equals(Object object) {
+		if (object == null) return false;
+		if (!(object instanceof ItemUpgradesComponent component)) return false;
+		if (component.showInTooltip != this.showInTooltip) return false;
+		return component.upgrades.equals(this.upgrades);
+	}
+
+	public boolean isEmpty() {
+		return this.upgrades.isEmpty();
+	}
+
 	public static class Builder {
 
 		private final Object2IntOpenHashMap<RegistryEntry<Upgrade>> upgrades = new Object2IntOpenHashMap<>();
 		private final boolean showInTooltip;
+
+		public Builder(ItemUpgradesComponent component) {
+			this(component.upgrades, component.showInTooltip);
+		}
 
 		protected Builder(Object2IntOpenHashMap<RegistryEntry<Upgrade>> upgrades, boolean showInTooltip) {
 			this.upgrades.putAll(upgrades);
@@ -116,10 +108,6 @@ public record ItemUpgradesComponent (
 
 		protected Builder(boolean showInTooltip) {
 			this.showInTooltip = showInTooltip;
-		}
-
-		public static Builder from(ItemUpgradesComponent component) {
-			return new Builder(component.upgrades, component.showInTooltip);
 		}
 
 		public static Builder create() {

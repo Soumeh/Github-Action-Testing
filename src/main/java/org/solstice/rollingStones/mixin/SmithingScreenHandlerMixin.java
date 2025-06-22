@@ -22,8 +22,9 @@ public class SmithingScreenHandlerMixin {
 
 	@Inject(method = "onTakeOutput", at = @At("HEAD"))
 	private void triggerUpgradeCriterion(PlayerEntity player, ItemStack stack, CallbackInfo ci) {
+		if (player.getWorld().isClient()) return;
 		if (this.currentRecipe == null) return;
-		if (this.currentRecipe.value().getSerializer().equals(RollingRecipeSerializers.SMITHING_UPGRADE)) return;
+		if (!this.currentRecipe.value().getSerializer().equals(RollingRecipeSerializers.SMITHING_UPGRADE)) return;
 
 		RollingAdvancementCriteria.UPGRADED_ITEM.trigger((ServerPlayerEntity)player, stack, this.currentRecipe.id());
 	}

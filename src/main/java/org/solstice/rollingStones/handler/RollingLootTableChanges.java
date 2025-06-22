@@ -21,13 +21,13 @@ public class RollingLootTableChanges {
 
 	public static void modifyVillagerTrades() {
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 2, factories ->
-			addOffer(factories, RollingItems.SIMPLE_SMITHING_STONE, 32, 3, 50)
+			addOffer(factories, RollingItems.SIMPLE_SMITHING_STONE, 28, 4, 24)
 		);
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.TOOLSMITH, 2, factories ->
-			addOffer(factories, RollingItems.SIMPLE_SMITHING_STONE, 32, 3, 50)
+			addOffer(factories, RollingItems.SIMPLE_SMITHING_STONE, 28, 4, 24)
 		);
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.WEAPONSMITH, 2, factories ->
-			addOffer(factories, RollingItems.SIMPLE_SMITHING_STONE, 32, 3, 50)
+			addOffer(factories, RollingItems.SIMPLE_SMITHING_STONE, 28, 4, 24)
 		);
 	}
 

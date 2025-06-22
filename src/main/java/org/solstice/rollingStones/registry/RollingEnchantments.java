@@ -14,7 +14,10 @@ import java.util.Optional;
 
 public class RollingEnchantments {
 
-	public static final RegistryKey<Enchantment> TEST = of("test");
+	public static final RegistryKey<Enchantment> FREAK_WHACKER = of("freak_whacker");
+	public static final RegistryKey<Enchantment> HATER = of("hater");
+	public static final RegistryKey<Enchantment> ELEMENTAL_WARD = of("elemental_ward");
+	public static final RegistryKey<Enchantment> IMPACT_PROTECTION = of("impact_protection");
 
 	public static final Enchantment EMPTY = new Enchantment(
 		Text.empty(),
@@ -32,7 +35,10 @@ public class RollingEnchantments {
 	);
 
 	public static void bootstrap(Registerable<Enchantment> registry) {
-		registry.register(TEST, EMPTY);
+		registry.register(FREAK_WHACKER, EMPTY);
+		registry.register(HATER, EMPTY);
+		registry.register(ELEMENTAL_WARD, EMPTY);
+		registry.register(IMPACT_PROTECTION, EMPTY);
 	}
 
 	private static RegistryKey<Enchantment> of(String name) {

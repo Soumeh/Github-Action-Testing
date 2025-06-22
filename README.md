@@ -4,7 +4,19 @@
 - Removing attribute upgrade enchantments (and mending)
 - Upgrading equipment attributes using Smithing Stones
 
-# Upgrade Locations
+# Upgrade Materials
+
+| Upgrade    | Item        |
+|------------|-------------|
+| Density    | Tuff        |
+| Drawback   | Andesite    |
+| Durability | Cobblestone |
+| Efficiency | Deepslate   |
+| Protection | Granite     |
+| Sharpness  | Basalt      |
+| Tension    | Diorite     |
+
+# Smithing Stone Locations
 
 ### Simple Smithing Stone (Tier 1)
 | Location                   | Chance | Notes                             |
