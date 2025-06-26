@@ -8,18 +8,17 @@ import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stat;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
+import org.solstice.rollingStones.content.block.entity.AbstractStrongboxEntity;
 import org.solstice.rollingStones.content.block.entity.StrongboxEntity;
 import org.solstice.rollingStones.registry.RollingBlockEntityTypes;
 
@@ -92,20 +91,9 @@ public abstract class AbstractStrongboxBlock extends AbstractChestBlock<Strongbo
 	}
 
 	@Override
-	public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new StrongboxEntity(pos, state);
-	}
-
-	@Override
-	protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-		if (world.getBlockEntity(pos) instanceof StrongboxEntity strongboxEntity)
-			strongboxEntity.onScheduledTick(state, world, pos, random);
-	}
-
-	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return world.isClient ? validateTicker(type, RollingBlockEntityTypes.STRONGBOX, StrongboxEntity::clientTick) : null;
+		return validateTicker(type, RollingBlockEntityTypes.STRONGBOX, AbstractStrongboxEntity::update);
 	}
 
 	@Override

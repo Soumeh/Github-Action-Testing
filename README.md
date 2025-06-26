@@ -4,6 +4,12 @@
 
 # Features
 
+- Removed all attribute-upgrading enchantments (Sharpness, Efficiency, etc.).
+- Removed Mending.
+- Removed anvil repair cost penalty.
+- Added Smithing Stones.
+- Added Upgrade recipes for items.
+
 ## Upgrade Materials
 
 | Upgrade    | Item        |

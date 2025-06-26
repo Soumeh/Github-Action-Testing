@@ -2,10 +2,15 @@ package org.solstice.rollingStones.datagen;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.advancement.criterion.InventoryChangedCriterion;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.predicate.NumberRange;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryKey;
@@ -16,6 +21,7 @@ import net.minecraft.util.Identifier;
 import org.solstice.euclidsElements.autoDatagen.api.generator.AdvancedRecipeProvider;
 import org.solstice.rollingStones.api.recipe.SmithingUpgradeRecipeBuilder;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
+import org.solstice.rollingStones.registry.RollingBlocks;
 import org.solstice.rollingStones.registry.RollingItems;
 import org.solstice.rollingStones.registry.RollingRegistryKeys;
 
@@ -52,6 +58,24 @@ public class RollingRecipeGenerator extends AdvancedRecipeProvider {
 	}
 
 	public void generate(RecipeExporter exporter, RegistryWrapper.WrapperLookup registryLookup) {
+		ShapedRecipeJsonBuilder
+			.create(RecipeCategory.DECORATIONS, RollingBlocks.STRONGBOX)
+			.input('#', Blocks.DEEPSLATE)
+			.pattern("###")
+			.pattern("# #")
+			.pattern("###")
+			.criterion("has_deepslate", conditionsFromItem(Blocks.DEEPSLATE))
+			.criterion("has_lots_of_items", Criteria.INVENTORY_CHANGED.create(new InventoryChangedCriterion.Conditions(
+				Optional.empty(),
+				new InventoryChangedCriterion.Conditions.Slots(
+					NumberRange.IntRange.atLeast(20),
+					NumberRange.IntRange.ANY,
+					NumberRange.IntRange.ANY
+				),
+				List.of()
+			)))
+			.offerTo(exporter);
+
 		SMITHING_STONE_TIERS.forEach((smithingStoneItem, tier) -> {
 			Ingredient template = Ingredient.ofItems(smithingStoneItem);
 			UPGRADE_MATERIALS.forEach((upgradeKey, upgradeItem) -> {

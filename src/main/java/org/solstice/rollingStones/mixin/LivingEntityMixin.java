@@ -14,8 +14,7 @@ public class LivingEntityMixin {
 	@Inject(method = "createLivingAttributes", at = @At("RETURN"), cancellable = true)
 	private static void appendLivingAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
 		DefaultAttributeContainer.Builder builder = cir.getReturnValue();
-		builder
-			.add(RollingAttributes.MAX_PULL_TIME_MULTIPLIER);
+		builder.add(RollingAttributes.MAX_PULL_TIME_MULTIPLIER);
 		cir.setReturnValue(builder);
 	}
 
