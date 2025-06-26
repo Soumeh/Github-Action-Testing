@@ -11,12 +11,13 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -25,12 +26,14 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.solstice.rollingStones.registry.RollingBlockEntityTypes;
+import org.solstice.rollingStones.registry.RollingSoundEvents;
 
 public class StrongboxEntity extends LootableContainerBlockEntity implements LidOpenable {
 
 	@Override
 	protected Text getContainerName() {
-		String key = RollingBlockEntityTypes.STRONGBOX.getRegistryEntry().getKey().orElseThrow().getValue().toTranslationKey("container");
+		RegistryEntry<BlockEntityType<?>> entry = Registries.BLOCK_ENTITY_TYPE.getEntry(this.getType());
+		String key = entry.getKey().orElseThrow().getValue().toTranslationKey("container");
 		return Text.translatable(key);
 	}
 
@@ -52,29 +55,7 @@ public class StrongboxEntity extends LootableContainerBlockEntity implements Lid
 	public StrongboxEntity(BlockPos pos, BlockState state) {
 		super(RollingBlockEntityTypes.STRONGBOX, pos, state);
 		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-		this.stateManager = new ViewerCountManager() {
-			@Override
-			protected void onContainerOpen(World world, BlockPos pos, BlockState state) {
-				world.playSound(null, pos, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 1, 1);
-			}
-
-			@Override
-			protected void onContainerClose(World world, BlockPos pos, BlockState state) {
-				StrongboxEntity.this.scheduleUpdate(world, pos);
-			}
-
-			@Override
-			protected void onViewerCountUpdate(World world, BlockPos pos, BlockState state, int oldViewerCount, int newViewerCount) {}
-
-			@Override
-			protected boolean isPlayerViewing(PlayerEntity player) {
-				if (player.currentScreenHandler instanceof GenericContainerScreenHandler container) {
-					Inventory inventory = container.getInventory();
-					return inventory == StrongboxEntity.this;
-				}
-				return false;
-			}
-		};
+		this.stateManager = new StrongboxViewerManager(this);
 	}
 
 	@Override
@@ -116,14 +97,14 @@ public class StrongboxEntity extends LootableContainerBlockEntity implements Lid
 		world.scheduleBlockTick(pos, world.getBlockState(pos).getBlock(), time);
 	}
 
-	public void onScheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random r) {
+	public void onScheduledTick(BlockState s, ServerWorld world, BlockPos pos, Random r) {
 		if (this.stateManager.getViewerCount() > 0) return;
 		if (this.openProgress == MAX_OPEN_PROGRESS) {
 			this.updateOpening(0);
-			world.playSound(null, pos, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 1, 1);
+			world.playSound(null, pos, RollingSoundEvents.STRONGBOX_CLOSE, SoundCategory.BLOCKS, 0.5F, 1);
 		} else if (this.openProgress < MAX_OPEN_PROGRESS) {
 			this.updateOpening(0, -1);
-			world.playSound(null, pos, SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.BLOCKS, 1, 1);
+			world.playSound(null, pos, RollingSoundEvents.STRONGBOX_SLAM, SoundCategory.BLOCKS, 0.75F, 1);
 		}
 	}
 
@@ -157,7 +138,7 @@ public class StrongboxEntity extends LootableContainerBlockEntity implements Lid
 	public void incrementOpening(World world, BlockPos pos) {
 		float pitch = (float)this.openProgress / MAX_OPEN_PROGRESS;
 		pitch = 1.5F - pitch * 1.5F;
-		world.playSound(null, pos, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1, pitch);
+		world.playSound(null, pos, RollingSoundEvents.STRONGBOX_OPEN, SoundCategory.BLOCKS, 1, pitch);
 		this.lastOpenProgress = this.openProgress;
 		this.openProgress = Math.min(this.openProgress + 1, MAX_OPEN_PROGRESS);
 		this.markDirty();
@@ -168,14 +149,15 @@ public class StrongboxEntity extends LootableContainerBlockEntity implements Lid
 		this.lastOpenProgress = this.openProgress;
 		this.openProgress = progress;
 		this.markDirty();
-		((ServerWorld)world).getChunkManager().markForUpdate(pos);
+		ServerWorld world = (ServerWorld)this.getWorld();
+		if (world != null) world.getChunkManager().markForUpdate(pos);
 	}
 
 	public void updateOpening(int progress, int lastProgress) {
 		this.openProgress = progress;
 		this.lastOpenProgress = lastProgress;
-		this.markDirty();
-		((ServerWorld)world).getChunkManager().markForUpdate(pos);
+		ServerWorld world = (ServerWorld)this.getWorld();
+		if (world != null) world.getChunkManager().markForUpdate(pos);
 	}
 
 	public boolean canOpen() {
@@ -202,6 +184,38 @@ public class StrongboxEntity extends LootableContainerBlockEntity implements Lid
 	@Override
 	public float getAnimationProgress(float delta) {
 		return MathHelper.lerp(delta, this.lastAnimationProgress, this.animationProgress);
+	}
+
+	public static class StrongboxViewerManager extends ViewerCountManager {
+
+		private final StrongboxEntity entity;
+
+		public StrongboxViewerManager(StrongboxEntity entity) {
+			this.entity = entity;
+		}
+
+		@Override
+		protected void onContainerOpen(World world, BlockPos pos, BlockState state) {
+			world.playSound(null, pos, RollingSoundEvents.STRONGBOX_OPEN, SoundCategory.BLOCKS, 1, 1);
+		}
+
+		@Override
+		protected void onContainerClose(World world, BlockPos pos, BlockState state) {
+			this.entity.scheduleUpdate(world, pos);
+		}
+
+		@Override
+		protected void onViewerCountUpdate(World world, BlockPos pos, BlockState state, int oldViewerCount, int newViewerCount) {}
+
+		@Override
+		protected boolean isPlayerViewing(PlayerEntity player) {
+			if (player.currentScreenHandler instanceof GenericContainerScreenHandler container) {
+				Inventory inventory = container.getInventory();
+				return inventory.equals(this.entity);
+			}
+			return false;
+		}
+
 	}
 
 }

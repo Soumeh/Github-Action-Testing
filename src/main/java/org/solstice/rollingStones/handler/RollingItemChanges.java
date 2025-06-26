@@ -4,12 +4,16 @@ import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 import org.solstice.rollingStones.content.item.SmithingStoneItem;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
+import org.solstice.rollingStones.registry.RollingBlocks;
+import org.solstice.rollingStones.registry.RollingItems;
 import org.solstice.rollingStones.registry.RollingRegistryKeys;
 
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -20,10 +24,19 @@ public class RollingItemChanges {
 	}
 
 	public static void addSmithingStones(FabricItemGroupEntries entries) {
+		entries.addAll(List.of(
+			RollingItems.SIMPLE_SMITHING_STONE.getDefaultStack().copy(),
+			RollingItems.HONED_SMITHING_STONE.getDefaultStack().copy(),
+			RollingItems.GILDED_SMITHING_STONE.getDefaultStack().copy()
+		));
 		entries.getContext().lookup().getOptionalWrapper(RollingRegistryKeys.UPGRADE).ifPresent(registry -> {
 			addMaxTierSmithingStones(entries, registry);
 			addAllTierSmithingStones(entries, registry);
 		});
+	}
+
+	public static void addStrongbox(FabricItemGroupEntries entries) {
+		entries.addAfter(Items.BARREL, RollingBlocks.STRONGBOX);
 	}
 
 	private static void addMaxTierSmithingStones(ItemGroup.Entries entries, RegistryWrapper<Upgrade> registryWrapper) {

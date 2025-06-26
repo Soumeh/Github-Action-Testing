@@ -7,36 +7,46 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.World;
 import org.solstice.rollingStones.RollingStones;
-import org.solstice.rollingStones.client.registry.RollingEntityRenderers;
 import org.solstice.rollingStones.content.block.entity.StrongboxEntity;
 
 public class StrongboxRenderer implements BlockEntityRenderer<StrongboxEntity> {
 
 	public static final Identifier TEXTURE = RollingStones.of("textures/block/strongbox.png");
+	public static final EntityModelLayer LAYER = new EntityModelLayer(RollingStones.of("strongbox"), "main");
 
 	private final ModelPart root;
 	private final ModelPart lid;
 
 	public StrongboxRenderer(BlockEntityRendererFactory.Context context) {
-		ModelPart part = context.getLayerModelPart(RollingEntityRenderers.STRONGBOX);
-		this.root = part;
-		this.lid = part.getChild("lid");
+		ModelPart root = context.getLayerModelPart(LAYER);
+		this.root = root;
+		this.lid = root.getChild("lid");
 	}
 
 	public static TexturedModelData getTexturedModelData() {
 		ModelData model = new ModelData();
-		ModelPartData modelPartData = model.getRoot();
+		ModelPartData data = model.getRoot();
 
-		modelPartData.addChild("upgrade", ModelPartBuilder.create().uv(0, 0).cuboid(0.0F, 0.0F, 0.0F, 16.0F, 16.0F, 16.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		data.addChild("lid",
+			ModelPartBuilder.create()
+				.uv(0, 0)
+				.cuboid(-7, -5, -14, 14, 5, 14),
+			ModelTransform.pivot(8, 7, 15)
+		);
+		data.addChild("base",
+			ModelPartBuilder.create()
+				.uv(0, 19)
+				.cuboid(1, 0, 1, 14, 10, 14),
+			ModelTransform.pivot(0, 6, 0)
+		);
 
-		modelPartData.addChild("lid", ModelPartBuilder.create().uv(0, 0).cuboid(1.0F, 0.0F, 0.0F, 14.0F, 5.0F, 14.0F), ModelTransform.pivot(0.0F, 9.0F, 1.0F));
-		modelPartData.addChild("bottom", ModelPartBuilder.create().uv(0, 19).cuboid(1.0F, 0.0F, 1.0F, 14.0F, 10.0F, 14.0F), ModelTransform.NONE);
 		return TexturedModelData.of(model, 64, 64);
 	}
 
@@ -50,6 +60,7 @@ public class StrongboxRenderer implements BlockEntityRenderer<StrongboxEntity> {
 		float rotation = state.get(ChestBlock.FACING).asRotation();
 		matrices.translate(0.5F, 0.5F, 0.5F);
 		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-rotation));
+		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180));
 		matrices.translate(-0.5F, -0.5F, -0.5F);
 
 		VertexConsumer vertices = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(TEXTURE));

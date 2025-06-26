@@ -28,7 +28,7 @@ public class RollingItems {
 		new Item.Settings()
 			.rarity(Rarity.UNCOMMON)
     );
-    public static final Item PERFECT_SMITHING_STONE = register("perfect_smithing_stone",
+    public static final Item GILDED_SMITHING_STONE = register("gilded_smithing_stone",
 		SmithingStoneItem::new,
 		new Item.Settings()
 			.rarity(Rarity.RARE)
@@ -37,7 +37,7 @@ public class RollingItems {
 	public static final Int2ObjectOpenHashMap<ItemStack> SMITHING_STONE_TIERS = new Int2ObjectOpenHashMap<>(Map.of(
 		1, SIMPLE_SMITHING_STONE.getDefaultStack(),
 		2, HONED_SMITHING_STONE.getDefaultStack(),
-		3, PERFECT_SMITHING_STONE.getDefaultStack()
+		3, GILDED_SMITHING_STONE.getDefaultStack()
 	));
 
 	public static Item register(String name) {

@@ -21,6 +21,10 @@
 
 	"container.rolling_stones.strongbox": "Strongbox",
 
+	"subtitles.block.rolling_stones.strongbox.open": "Strongbox opens",
+	"subtitles.block.rolling_stones.strongbox.close": "Strongbox closes",
+	"subtitles.block.rolling_stones.strongbox.slam": "Strongbox slams",
+
     "item.smithing_stone.tooltip": "+%s %s",
     "upgrade.tiers": " [%s/%s]",
 	"upgrade.tier": " %s"

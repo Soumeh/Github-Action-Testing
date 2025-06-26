@@ -12,8 +12,9 @@ public class RollingLootFunctionTypes {
 
 	public static void init() {}
 
-	public static LootFunctionType<SetUpgradesLootFunction> SET_UPGRADES =
-		register("set_upgrades", SetUpgradesLootFunction.CODEC);
+	public static final LootFunctionType<SetUpgradesLootFunction> SET_UPGRADES = register("set_upgrades",
+		SetUpgradesLootFunction.CODEC
+	);
 
 	private static <T extends LootFunction> LootFunctionType<T> register(String name, MapCodec<T> codec) {
 		return Registry.register(Registries.LOOT_FUNCTION_TYPE, RollingStones.of(name), new LootFunctionType<>(codec));

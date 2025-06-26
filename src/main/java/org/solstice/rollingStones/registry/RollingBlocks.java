@@ -22,7 +22,7 @@ public class RollingBlocks {
 	public static void init() {}
 
 	public static final Block STRONGBOX = register("strongbox",
-		settings -> new StrongboxBlock(settings, () -> RollingBlockEntityTypes.STRONGBOX),
+		settings -> new StrongboxBlock(settings, RollingBlockEntityTypes.STRONGBOX),
 		AbstractBlock.Settings.create()
 			.requiresTool()
 			.strength(5.0F, 6.0F)

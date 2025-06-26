@@ -20,11 +20,9 @@ import net.minecraft.world.World;
 import org.solstice.rollingStones.content.block.entity.StrongboxEntity;
 import org.solstice.rollingStones.registry.RollingBlockEntityTypes;
 
-import java.util.function.Supplier;
-
 public class StrongboxBlock extends AbstractStrongboxBlock implements Waterloggable {
 
-	public static final MapCodec<StrongboxBlock> CODEC = createCodec(settings -> new StrongboxBlock(settings, () -> RollingBlockEntityTypes.STRONGBOX));
+	public static final MapCodec<StrongboxBlock> CODEC = createCodec(settings -> new StrongboxBlock(settings, RollingBlockEntityTypes.STRONGBOX));
 
 	public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
 	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
@@ -34,8 +32,8 @@ public class StrongboxBlock extends AbstractStrongboxBlock implements Waterlogga
 		return CODEC;
 	}
 
-	public StrongboxBlock(Settings settings, Supplier<BlockEntityType<? extends StrongboxEntity>> supplier) {
-		super(settings, supplier);
+	public StrongboxBlock(Settings settings, BlockEntityType<? extends StrongboxEntity> entityType) {
+		super(settings, () -> entityType);
 		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(WATERLOGGED, false));
 	}
 

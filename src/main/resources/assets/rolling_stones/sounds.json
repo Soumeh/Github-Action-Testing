@@ -1,0 +1,29 @@
+{
+	"block.strongbox.open": {
+		"sounds": [
+			"block/chest/open"
+		],
+		"subtitle": "subtitles.block.rolling_stones.strongbox.open"
+	},
+	"block.strongbox.close": {
+		"sounds": [
+			"block/chest/close1",
+			"block/chest/close2",
+			"block/chest/close3"
+		],
+		"subtitle": "subtitles.block.rolling_stones.strongbox.close"
+	},
+	"block.strongbox.slam": {
+		"sounds": [
+			"random/anvil_land"
+		],
+		"subtitle": "subtitles.block.rolling_stones.strongbox.slam"
+	},
+	"block.strongbox.locked": {
+		"sounds": [
+			"block/chest/close_locked",
+			"block/chest/open_locked"
+		],
+		"subtitle": "subtitles.block.rolling_stones.strongbox.locked"
+	}
+}
