@@ -1,0 +1,11 @@
+{
+	"values": [
+		"rolling_stones:density",
+		"rolling_stones:drawback",
+		"rolling_stones:durability",
+		"rolling_stones:efficiency",
+		"rolling_stones:protection",
+		"rolling_stones:sharpness",
+		"rolling_stones:tension"
+	]
+}

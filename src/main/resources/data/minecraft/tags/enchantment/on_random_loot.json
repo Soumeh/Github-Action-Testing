@@ -1,6 +1,19 @@
 {
-	"values": [],
-	"remove": [
-		"#rolling_stones:removed"
+	"values": [
+		"rolling_stones:elemental_ward",
+		"rolling_stones:hater",
+		"rolling_stones:impact_protection",
+		"rolling_stones:freak_whacker"
+	],
+	"removals": [
+		"minecraft:protection",
+		"minecraft:sharpness",
+		"minecraft:efficiency",
+		"minecraft:unbreaking",
+		"minecraft:power",
+		"minecraft:mending",
+		"minecraft:density",
+		"minecraft:quick_charge",
+		"minecraft:bane_of_arthropods"
 	]
 }

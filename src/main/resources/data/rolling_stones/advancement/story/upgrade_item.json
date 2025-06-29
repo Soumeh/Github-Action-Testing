@@ -1,0 +1,14 @@
+{
+	"parent": "minecraft:story/smelt_iron",
+	"criteria": {
+		"upgraded_item": { "trigger": "rolling_stones:upgraded_item" }
+	},
+	"display": {
+		"icon": { "id": "rolling_stones:simple_smithing_stone" },
+		"title": { "translate": "advancements.story.rolling_stones.upgrade_item.title" },
+		"description": { "translate": "advancements.story.rolling_stones.upgrade_item.description" }
+	},
+	"requirements": [
+		[ "upgraded_item" ]
+	]
+}

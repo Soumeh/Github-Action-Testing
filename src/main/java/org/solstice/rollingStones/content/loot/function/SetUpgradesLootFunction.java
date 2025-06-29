@@ -16,8 +16,8 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.MathHelper;
 import org.solstice.rollingStones.content.item.component.ItemUpgradesComponent;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
-import org.solstice.rollingStones.registry.ModComponentTypes;
-import org.solstice.rollingStones.registry.ModLootFunctionTypes;
+import org.solstice.rollingStones.registry.RollingComponentTypes;
+import org.solstice.rollingStones.registry.RollingLootFunctionTypes;
 
 import java.util.List;
 import java.util.Map;
@@ -47,13 +47,15 @@ public class SetUpgradesLootFunction extends ConditionalLootFunction {
 
 	@Override
 	public LootFunctionType<SetUpgradesLootFunction> getType() {
-		return ModLootFunctionTypes.SET_UPGRADES.get();
+		return RollingLootFunctionTypes.SET_UPGRADES;
 	}
 
 	@Override
 	protected ItemStack process(ItemStack stack, LootContext context) {
-		ItemUpgradesComponent component = stack.get(ModComponentTypes.UPGRADES);
-		ItemUpgradesComponent.Builder builder = ItemUpgradesComponent.Builder.of(component);
+		ItemUpgradesComponent component = stack.get(RollingComponentTypes.UPGRADES);
+		if (component == null) return ItemStack.EMPTY;
+
+		ItemUpgradesComponent.Builder builder = new ItemUpgradesComponent.Builder(component);
 
 		if (this.add) this.upgrades.forEach((upgrade, level) ->
 			builder.set(upgrade, MathHelper.clamp(builder.getTier(upgrade) + level.nextInt(context), 0, 255))
@@ -62,7 +64,7 @@ public class SetUpgradesLootFunction extends ConditionalLootFunction {
 			builder.set(upgrade, MathHelper.clamp(level.nextInt(context), 0, 255))
 		);
 
-		stack.set(ModComponentTypes.UPGRADES, builder.build());
+		stack.set(RollingComponentTypes.UPGRADES, builder.build());
 		return stack;
 	}
 

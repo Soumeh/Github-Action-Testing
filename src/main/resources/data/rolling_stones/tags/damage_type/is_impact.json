@@ -1,0 +1,11 @@
+{
+	"values": [
+		"#minecraft:is_explosion",
+		"minecraft:fly_into_wall",
+		"minecraft:falling_anvil",
+		"minecraft:falling_block",
+		"minecraft:falling_stalactite",
+		"minecraft:in_wall",
+		"minecraft:cramming"
+	]
+}

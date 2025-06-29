@@ -7,72 +7,94 @@ import net.minecraft.component.ComponentMap;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.entry.RegistryFixedCodec;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.text.Texts;
+import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.dynamic.Codecs;
-import org.solstice.euclidsElements.api.effectHolder.EffectHolder;
-import org.solstice.rollingStones.registry.ModRegistryKeys;
+import org.solstice.euclidsElements.effectHolder.api.EffectHolder;
+import org.solstice.rollingStones.registry.RollingRegistryKeys;
 
 import java.util.List;
+import java.util.Optional;
 
 public record Upgrade (
-        Definition definition,
-        ComponentMap effects
+	Optional<Text> description,
+	Definition definition,
+	ComponentMap effects
 ) implements EffectHolder {
 
     public static final Codec<Upgrade> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Definition.CODEC.forGetter(Upgrade::definition),
-            EnchantmentEffectComponentTypes.COMPONENT_MAP_CODEC.optionalFieldOf("effects", ComponentMap.EMPTY).forGetter(Upgrade::effects)
+		TextCodecs.CODEC.optionalFieldOf("description").forGetter(Upgrade::description),
+		Definition.CODEC.forGetter(Upgrade::definition),
+		EnchantmentEffectComponentTypes.COMPONENT_MAP_CODEC.optionalFieldOf("effects", ComponentMap.EMPTY).forGetter(Upgrade::effects)
     ).apply(instance, Upgrade::new));
 
-    public static final Codec<RegistryEntry<Upgrade>> ENTRY_CODEC = RegistryFixedCodec.of(ModRegistryKeys.UPGRADE);
+    public static final Codec<RegistryEntry<Upgrade>> ENTRY_CODEC = RegistryFixedCodec.of(RollingRegistryKeys.UPGRADE);
 
+	public static final PacketCodec<RegistryByteBuf, RegistryEntry<Upgrade>> ENTRY_PACKET_CODEC = PacketCodecs.registryEntry(RollingRegistryKeys.UPGRADE);
 
-    @Override
+	@Override
     public ComponentMap getEffects() {
         return this.effects;
     }
 
     @Override
-    public EffectHolder.Definition getDefinition() {
+    public Definition getDefinition() {
         return this.definition;
     }
 
-    public static MutableText getName(RegistryEntry<Upgrade> upgrade) {
-        return Text.translatable(
-                upgrade.getKey().orElseThrow().getValue().toTranslationKey("upgrade")
-        );
+	public boolean isAcceptableItem(ItemStack stack) {
+		return this.definition.supportedItems().contains(stack.getRegistryEntry());
+	}
+
+    public static MutableText getName(RegistryEntry<Upgrade> entry) {
+		Optional<Text> description = entry.value().description;
+		if (description.isPresent()) return description.get().copy();
+
+		return Text.translatable(entry.getKey().orElseThrow().getValue().toTranslationKey("upgrade"));
     }
 
-    public static MutableText getTooltip(RegistryEntry<Upgrade> upgrade, int tier) {
-        Text name = getName(upgrade);
+    public static MutableText getTooltip(RegistryEntry<Upgrade> entry, int tier) {
+        Text name = getName(entry);
         MutableText tooltip = Text.translatable("item.smithing_stone.tooltip", tier, name);
         Texts.setStyleIfAbsent(tooltip, Style.EMPTY.withColor(Formatting.GOLD));
         return tooltip;
     }
 
+	public static MutableText getSimpleName(RegistryEntry<Upgrade> upgrade, int tier) {
+		MutableText name = getName(upgrade);
+
+		int maxTier = upgrade.value().getDefinition().getMaxLevel();
+		if (tier != 1 || maxTier != 1) {
+			name.append(ScreenTexts.SPACE).append(Text.translatable("enchantment.level." + tier));
+		}
+
+		Texts.setStyleIfAbsent(name, Style.EMPTY.withColor(Formatting.GOLD));
+		return name;
+	}
+
     public static MutableText getFullName(RegistryEntry<Upgrade> upgrade, int tier) {
         MutableText name = getName(upgrade);
 
+		Text tierTooltip;
         int maxTier = upgrade.value().getDefinition().getMaxLevel();
-        if (maxTier != 1) {
-            Text tierTooltip = Text.translatable("upgrade.tiers", tier, maxTier);
-//            Text tierTooltip = Text.translatable("upgrade.tiers",
-//                    Text.translatable("enchantment.level." + tier),
-//                    Text.translatable("enchantment.level." + maxTier)
-//            );
-            name.append(tierTooltip);
-        }
+        if (maxTier != 1 && tier < maxTier) {
+            tierTooltip = Text.translatable("upgrade.tiers", tier, maxTier);
+        } else {
+			tierTooltip = Text.translatable("upgrade.tier", tier);
+		}
+		name.append(tierTooltip);
 
-        Texts.setStyleIfAbsent(name, Style.EMPTY.withColor(Formatting.GOLD));
+		Texts.setStyleIfAbsent(name, Style.EMPTY.withColor(Formatting.GOLD));
         return name;
     }
 
@@ -87,6 +109,10 @@ public record Upgrade (
                 Codecs.rangedInt(1, 255).fieldOf("max_tier").forGetter(Definition::maxTier),
                 AttributeModifierSlot.CODEC.listOf().fieldOf("slots").forGetter(Definition::slots)
         ).apply(instance, Definition::new));
+
+		public RegistryEntryList<Item> getSupportedItems() {
+			return this.supportedItems;
+		}
 
         @Override
         public int getMaxLevel() {

@@ -1,97 +1,112 @@
 package org.solstice.rollingStones.content.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.DataComponentTypes;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.trim.*;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.input.SmithingRecipeInput;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.world.World;
-import org.solstice.euclidsElements.util.CodecRecipeSerializer;
-import org.solstice.rollingStones.registry.ModRecipeTypes;
+import org.solstice.rollingStones.content.item.component.ItemUpgradesComponent;
+import org.solstice.rollingStones.content.upgrade.Upgrade;
+import org.solstice.rollingStones.content.upgrade.UpgradeHelper;
+import org.solstice.rollingStones.registry.*;
 
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public record SmithingUpgradeRecipe (
-        Ingredient template,
-        Ingredient base,
-        Ingredient addition
+		Ingredient template,
+		Ingredient addition,
+		RegistryEntry<Upgrade> upgrade,
+		int tier,
+		boolean requiresPreviousTier
 ) implements SmithingRecipe {
 
     public static final MapCodec<SmithingUpgradeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("template").forGetter(SmithingUpgradeRecipe::template),
-            Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("base").forGetter(SmithingUpgradeRecipe::base),
-            Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("addition").forGetter(SmithingUpgradeRecipe::addition)
-    ).apply(instance, SmithingUpgradeRecipe::new));
+		Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("template").forGetter(SmithingUpgradeRecipe::template),
+		Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("addition").forGetter(SmithingUpgradeRecipe::addition),
+		Upgrade.ENTRY_CODEC.fieldOf("upgrade").forGetter(SmithingUpgradeRecipe::upgrade),
+		Codec.INT.fieldOf("tier").forGetter(SmithingUpgradeRecipe::tier),
+		Codec.BOOL.optionalFieldOf("requires_previous_tier", true).forGetter(SmithingUpgradeRecipe::requiresPreviousTier)
+	).apply(instance, SmithingUpgradeRecipe::new));
 
-    public static final RecipeSerializer<SmithingUpgradeRecipe> SERIALIZER = new CodecRecipeSerializer<>(CODEC);
-
-    @Override
-    public RecipeType<?> getType() {
-        return ModRecipeTypes.SMITHING_UPGRADE.get();
-    }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return RollingRecipeSerializers.SMITHING_UPGRADE;
     }
 
-    @Override
-    public ItemStack craft(SmithingRecipeInput arg, RegistryWrapper.WrapperLookup arg2) {
-        ItemStack itemstack = arg.base();
-        if (this.base.test(itemstack)) {
-            Optional<RegistryEntry.Reference<ArmorTrimMaterial>> optional = ArmorTrimMaterials.get(arg2, arg.addition());
-            Optional<RegistryEntry.Reference<ArmorTrimPattern>> optional1 = ArmorTrimPatterns.get(arg2, arg.template());
-            if (optional.isPresent() && optional1.isPresent()) {
-                ArmorTrim armortrim = (ArmorTrim)itemstack.get(DataComponentTypes.TRIM);
-                if (armortrim != null && armortrim.equals((RegistryEntry)optional1.get(), (RegistryEntry)optional.get())) {
-                    return ItemStack.EMPTY;
-                }
+	@Override
+	public boolean matches(SmithingRecipeInput input, World world) {
+		if (input.template().contains(RollingComponentTypes.STORED_UPGRADES))
+			return this.template.test(input.template());
 
-                ItemStack itemstack1 = itemstack.copyWithCount(1);
-                itemstack1.set(DataComponentTypes.TRIM, new ArmorTrim((RegistryEntry)optional.get(), (RegistryEntry)optional1.get()));
-                return itemstack1;
-            }
-        }
+		return this.addition.test(input.addition())
+			&& this.template.test(input.template());
+	}
 
-        return ItemStack.EMPTY;
-    }
+	@Override
+	public ItemStack craft(SmithingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+		if (!this.template.test(input.template())) return ItemStack.EMPTY;
 
-    @Override
-    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
-        ItemStack itemstack = new ItemStack(Items.IRON_CHESTPLATE);
-        Optional<RegistryEntry.Reference<ArmorTrimPattern>> optional = registriesLookup.getWrapperOrThrow(RegistryKeys.TRIM_PATTERN).streamEntries().findFirst();
-        Optional<RegistryEntry.Reference<ArmorTrimMaterial>> optional1 = registriesLookup.getWrapperOrThrow(RegistryKeys.TRIM_MATERIAL).getOptional(ArmorTrimMaterials.REDSTONE);
-        if (optional.isPresent() && optional1.isPresent()) {
-            itemstack.set(DataComponentTypes.TRIM, new ArmorTrim((RegistryEntry)optional1.get(), (RegistryEntry)optional.get()));
-        }
+		ItemUpgradesComponent upgrades = input.base().getOrDefault(RollingComponentTypes.UPGRADES, ItemUpgradesComponent.DEFAULT);
+		ItemUpgradesComponent.Builder builder = new ItemUpgradesComponent.Builder(upgrades);
 
-        return itemstack;
-    }
+		ItemUpgradesComponent storedUpgrades = input.template().getOrDefault(RollingComponentTypes.STORED_UPGRADES, null);
+		if (storedUpgrades != null) {
+			if (!input.addition().isEmpty()) return ItemStack.EMPTY;
+			storedUpgrades.upgrades().forEach(builder::add);
+		} else {
+			System.out.println(Arrays.toString(this.addition.getMatchingStacks()));
 
-    @Override
-    public boolean matches(SmithingRecipeInput input, World world) {
-        return this.template.test(input.template()) && this.base.test(input.base()) && this.addition.test(input.addition());
-    }
+			if (!this.addition.test(input.addition())) return ItemStack.EMPTY;
 
-    @Override
-    public boolean testTemplate(ItemStack stack) {
-        return this.template.test(stack);
-    }
+			TagKey<Item> supportedItems = this.upgrade.value().getDefinition().getSupportedItems().getTagKey().orElseThrow();
+			if (!input.base().isIn(supportedItems)) return ItemStack.EMPTY;
 
-    @Override
-    public boolean testBase(ItemStack stack) {
-        return this.base.test(stack);
-    }
+			builder.set(this.upgrade, this.tier);
+		}
 
-    @Override
-    public boolean testAddition(ItemStack stack) {
-        return this.addition.test(stack);
-    }
+		ItemUpgradesComponent newUpgrades = builder.build();
+		if (upgrades.equals(newUpgrades)) return ItemStack.EMPTY;
+
+		ItemStack result = input.base().copyWithCount(1);
+		result.set(RollingComponentTypes.UPGRADES, builder.build());
+		return result;
+	}
+
+	@Override
+	public ItemStack getResult(RegistryWrapper.WrapperLookup lookup) {
+		ItemStack stack = new ItemStack(Items.IRON_CHESTPLATE);
+		UpgradeHelper.apply(stack, builder -> builder.set(this.upgrade, this.tier));
+		return stack;
+	}
+
+	@Override
+	public boolean testBase(ItemStack stack) {
+		return !stack.isEmpty();
+	}
+
+	@Override
+	public boolean testAddition(ItemStack stack) {
+		return this.addition.test(stack);
+	}
+
+	@Override
+	public boolean testTemplate(ItemStack stack) {
+		return this.template.test(stack);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return Stream.of(this.template)
+			.anyMatch(Ingredient::isEmpty);
+	}
 
 }
