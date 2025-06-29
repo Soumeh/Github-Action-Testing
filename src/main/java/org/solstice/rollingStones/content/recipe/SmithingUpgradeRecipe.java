@@ -17,11 +17,11 @@ import org.solstice.rollingStones.content.upgrade.Upgrade;
 import org.solstice.rollingStones.content.upgrade.UpgradeHelper;
 import org.solstice.rollingStones.registry.*;
 
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 public record SmithingUpgradeRecipe (
 		Ingredient template,
+		Ingredient base,
 		Ingredient addition,
 		RegistryEntry<Upgrade> upgrade,
 		int tier,
@@ -30,6 +30,7 @@ public record SmithingUpgradeRecipe (
 
     public static final MapCodec<SmithingUpgradeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("template").forGetter(SmithingUpgradeRecipe::template),
+		Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("base").forGetter(SmithingUpgradeRecipe::base),
 		Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("addition").forGetter(SmithingUpgradeRecipe::addition),
 		Upgrade.ENTRY_CODEC.fieldOf("upgrade").forGetter(SmithingUpgradeRecipe::upgrade),
 		Codec.INT.fieldOf("tier").forGetter(SmithingUpgradeRecipe::tier),
@@ -54,6 +55,7 @@ public record SmithingUpgradeRecipe (
 	@Override
 	public ItemStack craft(SmithingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
 		if (!this.template.test(input.template())) return ItemStack.EMPTY;
+		if (!this.base.test(input.base())) return ItemStack.EMPTY;
 
 		ItemUpgradesComponent upgrades = input.base().getOrDefault(RollingComponentTypes.UPGRADES, ItemUpgradesComponent.DEFAULT);
 		ItemUpgradesComponent.Builder builder = new ItemUpgradesComponent.Builder(upgrades);
@@ -63,8 +65,6 @@ public record SmithingUpgradeRecipe (
 			if (!input.addition().isEmpty()) return ItemStack.EMPTY;
 			storedUpgrades.upgrades().forEach(builder::add);
 		} else {
-			System.out.println(Arrays.toString(this.addition.getMatchingStacks()));
-
 			if (!this.addition.test(input.addition())) return ItemStack.EMPTY;
 
 			TagKey<Item> supportedItems = this.upgrade.value().getDefinition().getSupportedItems().getTagKey().orElseThrow();
@@ -89,8 +89,13 @@ public record SmithingUpgradeRecipe (
 	}
 
 	@Override
+	public boolean testTemplate(ItemStack stack) {
+		return this.template.test(stack);
+	}
+
+	@Override
 	public boolean testBase(ItemStack stack) {
-		return !stack.isEmpty();
+		return this.base.test(stack);
 	}
 
 	@Override
@@ -99,13 +104,8 @@ public record SmithingUpgradeRecipe (
 	}
 
 	@Override
-	public boolean testTemplate(ItemStack stack) {
-		return this.template.test(stack);
-	}
-
-	@Override
 	public boolean isEmpty() {
-		return Stream.of(this.template)
+		return Stream.of(this.template, this.base, this.addition)
 			.anyMatch(Ingredient::isEmpty);
 	}
 

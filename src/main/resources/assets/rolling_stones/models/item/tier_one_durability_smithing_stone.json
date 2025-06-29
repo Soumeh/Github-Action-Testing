@@ -1,6 +1,0 @@
-{
-	"parent": "minecraft:item/generated",
-	"textures": {
-		"layer0": "rolling_stones:item/tier_one_durability_smithing_stone"
-	}
-}

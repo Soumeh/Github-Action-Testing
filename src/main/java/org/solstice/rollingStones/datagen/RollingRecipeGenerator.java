@@ -24,6 +24,7 @@ import org.solstice.rollingStones.content.upgrade.Upgrade;
 import org.solstice.rollingStones.registry.RollingBlocks;
 import org.solstice.rollingStones.registry.RollingItems;
 import org.solstice.rollingStones.registry.RollingRegistryKeys;
+import org.solstice.rollingStones.registry.RollingTags;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -76,20 +77,25 @@ public class RollingRecipeGenerator extends AdvancedRecipeProvider {
 			)))
 			.offerTo(exporter);
 
+		Ingredient base = Ingredient.fromTag(RollingTags.UPGRADABLE);
 		SMITHING_STONE_TIERS.forEach((smithingStoneItem, tier) -> {
 			Ingredient template = Ingredient.ofItems(smithingStoneItem);
 			UPGRADE_MATERIALS.forEach((upgradeKey, upgradeItem) -> {
 				Ingredient addition = Ingredient.ofItems(upgradeItem);
 				RegistryEntry<Upgrade> upgrade = registryLookup.getWrapperOrThrow(RollingRegistryKeys.UPGRADE).getOrThrow(upgradeKey);
+				Identifier upgradeId = upgradeKey.getValue();
 
-				String name = "tier_" + tier + "_" + upgradeKey.getValue().getPath() + "_upgrade";
-				Identifier path = Identifier.of(upgradeKey.getValue().getNamespace(), name);
+				String name = "upgrade/" + upgradeId.getPath() + "/tier_" + tierNames[tier - 1];
 
-				SmithingUpgradeRecipeBuilder.create(RecipeCategory.MISC, template, addition, upgrade, tier, true)
+				Identifier path = Identifier.of(upgradeId.getNamespace(), name);
+
+				SmithingUpgradeRecipeBuilder.create(RecipeCategory.MISC, template, base, addition, upgrade, tier, true)
 					.criterion("has_smithing_stone", conditionsFromItem(smithingStoneItem))
 					.offerTo(exporter, path);
 			});
 		});
 	}
+
+	public static String[] tierNames = new String[]{"one", "two", "three"};
 
 }

@@ -21,6 +21,7 @@ public class SmithingUpgradeRecipeBuilder {
 
 	private final RecipeCategory category;
 	private final Ingredient template;
+	private final Ingredient base;
 	private final Ingredient addition;
 	private final RegistryEntry<Upgrade> upgrade;
 	private final int tier;
@@ -31,6 +32,7 @@ public class SmithingUpgradeRecipeBuilder {
 	public SmithingUpgradeRecipeBuilder(
 		RecipeCategory category,
 		Ingredient template,
+		Ingredient base,
 		Ingredient addition,
 		RegistryEntry<Upgrade> upgrade,
 		int tier,
@@ -38,6 +40,7 @@ public class SmithingUpgradeRecipeBuilder {
 	) {
 		this.category = category;
 		this.template = template;
+		this.base = base;
 		this.addition = addition;
 		this.upgrade = upgrade;
 		this.tier = tier;
@@ -47,12 +50,13 @@ public class SmithingUpgradeRecipeBuilder {
 	public static SmithingUpgradeRecipeBuilder create(
 		RecipeCategory category,
 		Ingredient template,
+		Ingredient base,
 		Ingredient addition,
 		RegistryEntry<Upgrade> upgrade,
 		int tier,
 		boolean requiresPreviousTier
 	) {
-		return new SmithingUpgradeRecipeBuilder(category, template, addition, upgrade, tier, requiresPreviousTier);
+		return new SmithingUpgradeRecipeBuilder(category, template, base, addition, upgrade, tier, requiresPreviousTier);
 	}
 
 	public SmithingUpgradeRecipeBuilder criterion(String name, AdvancementCriterion<?> criterion) {
@@ -71,7 +75,7 @@ public class SmithingUpgradeRecipeBuilder {
 
 		this.criteria.forEach(builder::criterion);
 		SmithingUpgradeRecipe recipe = new SmithingUpgradeRecipe(
-			this.template, this.addition, this.upgrade, this.tier, this.requiresPreviousTier
+			this.template, this.base, this.addition, this.upgrade, this.tier, this.requiresPreviousTier
 		);
 		exporter.accept(id, recipe, builder.build(id.withPrefixedPath("recipes/" + this.category.getName() + "/")));
 	}

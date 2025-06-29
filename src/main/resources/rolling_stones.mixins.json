@@ -11,11 +11,13 @@
 		"LivingEntityMixin",
 		"MiningToolItemMixin",
 		"SmithingScreenHandlerMixin",
-		"SpyglassItemMixin"
+		"ArmorTrimComponentMixin"
 	],
 	"client": [
 		"client.AbstractClientPlayerEntityMixin",
-		"client.ModelPredicateProviderRegistryMixin"
+		"client.BowItemMixin",
+		"client.ModelPredicateProviderRegistryMixin",
+		"client.SpyglassItemMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

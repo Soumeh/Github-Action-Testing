@@ -11,6 +11,7 @@
 - Removed the Anvil repair cost penalty after repairing items
 - Removed the Mending enchantment altogether
 - Replaced Chests in ancient cities with Strongboxes, which take longer to open and break than regular chests
+- Added new tooltips for enchantments / armor trims
 
 ## Upgrade Materials (W.I.P.)
 

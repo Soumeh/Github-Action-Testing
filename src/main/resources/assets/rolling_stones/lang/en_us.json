@@ -9,7 +9,7 @@
 	"advancements.story.rolling_stones.upgrade_pickaxe_fully.title": "Decked Out",
 	"advancements.story.rolling_stones.upgrade_pickaxe_fully.description": "Fully upgrade a Pickaxe",
 
-    "item.minecraft.smithing_template.upgrade": "Decorations:",
+    "item.decorations": "Decorations:",
     "item.enchantments": "Enchantments:",
     "item.upgrades": "Upgrades:",
     "item.attributes": "Attributes:",

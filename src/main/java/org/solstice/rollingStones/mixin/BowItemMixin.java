@@ -1,6 +1,8 @@
 package org.solstice.rollingStones.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,17 +32,6 @@ public class BowItemMixin implements FovModifierItem {
 	@Redirect(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/BowItem;getPullProgress(I)F"))
 	private float getPullProgressWithModifier(int useTicks, @Local(argsOnly = true) LivingEntity user) {
 		return getPullProgress(user, useTicks);
-	}
-
-	@Override
-	public float getFovMultiplier(MinecraftClient client, PlayerEntity player, float fov) {
-		if (!player.isUsingItem()) return fov;
-
-		int useTicks = player.getItemUseTime();
-		float multiplier = (float) useTicks / 20.0F;
-		multiplier = Math.min(multiplier, getMaxPullMultiplier(player));
-		multiplier *= multiplier;
-		return fov * (1.0F - multiplier * 0.15F);
 	}
 
 }
