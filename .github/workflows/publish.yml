@@ -18,6 +18,8 @@ jobs:
                   cache: "gradle"
             - name: Make gradlew executable
               run: chmod +x gradlew
+            - name: Run datagen
+              run: ./gradlew runDatagen
             - name: Build project
               run: ./gradlew clean build
             - name: Publish files
