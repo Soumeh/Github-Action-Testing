@@ -8,7 +8,7 @@ jobs:
         permissions:
             contents: write
         steps:
-            - name: Checkout Repo
+            - name: Checkout repo
               uses: actions/checkout@v3
             - name: Setup JDK
               uses: actions/setup-java@v3
@@ -16,9 +16,11 @@ jobs:
                   distribution: "temurin"
                   java-version: 21
                   cache: "gradle"
-            - name: Build
+            - name: Make gradlew executable
+              run: chmod +x gradlew
+            - name: Build project
               run: ./gradlew clean build
-            - name: Publish
+            - name: Publish files
               uses: Kir-Antipov/mc-publish@v3.3
               with:
 #                  curseforge-id: "${{ vars.CURSEFORGE_ID }}"
