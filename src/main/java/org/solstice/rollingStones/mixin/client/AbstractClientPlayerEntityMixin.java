@@ -27,7 +27,7 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
 		return false;
 	}
 
-	@Inject(method = "getFovMultiplier", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getActiveItem()Lnet/minecraft/item/ItemStack;"), cancellable = true)
+	@Inject(method = "getFovMultiplier", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getActiveItem()Lnet/minecraft/item/ItemStack;"))
 	private void handleFovMultiplierItems(CallbackInfoReturnable<Float> cir, @Local LocalFloatRef fovReference) {
 		if (!(this.getActiveItem().getItem() instanceof FovModifierItem item)) return;
 
