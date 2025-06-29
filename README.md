@@ -1,16 +1,18 @@
 # About
 
-**Rolling Stones** is an equipment progression overhaul mod that replaces attribute upgrading enchantments with unique upgrades.
+**Rolling Stones** is an equipment progression overhaul mod that replaces attribute upgrading enchantments with unique upgrades
 
 # Features
 
-- Removed all attribute-upgrading enchantments (Sharpness, Efficiency, etc.).
-- Removed Mending.
-- Removed anvil repair cost penalty.
-- Added Smithing Stones.
-- Added Upgrade recipes for items.
+- Added the Upgrade system
+  - Removed all attribute-upgrading enchantments (Sharpness, Efficiency, etc.)
+  - Added Smithing Stones, items which can be used to upgrade items when combined with specific stone types
+  - Completely data-driven, using the same effect system as Enchantments
+- Removed the Anvil repair cost penalty after repairing items
+- Removed the Mending enchantment altogether
+- Replaced Chests in ancient cities with Strongboxes, which take longer to open and break than regular chests
 
-## Upgrade Materials
+## Upgrade Materials (W.I.P.)
 
 | Upgrade    | Item        |
 |------------|-------------|
@@ -22,7 +24,7 @@
 | Sharpness  | Basalt      |
 | Tension    | Diorite     |
 
-## Smithing Stone Locations
+## Smithing Stone Locations (W.I.P.)
 
 ### Simple Smithing Stone (Tier 1)
 | Location                   | Chance | Notes                             |
@@ -49,7 +51,6 @@
 | Woodland Mansion Chests | 20%    |                               |
 | Vindicator Drops        | 5%     |                               |
 | Evoker Drops            | 10%    |                               |
-> ###### WIP and absolutely insane balancing
 
 # Credits
 - Thanks to [ninesnow](https://github.com/nine9snow) for the Smithing Stone textures!

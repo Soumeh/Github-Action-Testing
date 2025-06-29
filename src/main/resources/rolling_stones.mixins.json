@@ -10,7 +10,8 @@
 		"ItemStackMixin",
 		"LivingEntityMixin",
 		"MiningToolItemMixin",
-		"SmithingScreenHandlerMixin"
+		"SmithingScreenHandlerMixin",
+		"SpyglassItemMixin"
 	],
 	"client": [
 		"client.AbstractClientPlayerEntityMixin",

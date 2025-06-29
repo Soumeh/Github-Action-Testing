@@ -1,5 +1,7 @@
 package org.solstice.rollingStones.mixin.client;
 
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -9,8 +11,9 @@ import net.minecraft.world.World;
 import org.solstice.rollingStones.content.item.FovModifierItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractClientPlayerEntity.class)
 public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
@@ -24,16 +27,13 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
 		return false;
 	}
 
-	@ModifyArg(method = "getFovMultiplier", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;lerp(FFF)F"), index = 2)
-	private float handleFovMultiplierItems(float fov) {
-		if (this.isUsingItem()) {
-			if (this.getActiveItem().getItem() instanceof FovModifierItem fovModifier) {
-				fov = fovModifier.getFovMultiplier(this, fov);
-			} else if (MinecraftClient.getInstance().options.getPerspective().isFirstPerson() && this.isUsingSpyglass()) {
-				fov = 0.5F;
-			}
-		}
-		return fov;
+	@Inject(method = "getFovMultiplier", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getActiveItem()Lnet/minecraft/item/ItemStack;"), cancellable = true)
+	private void handleFovMultiplierItems(CallbackInfoReturnable<Float> cir, @Local LocalFloatRef fovReference) {
+		if (!(this.getActiveItem().getItem() instanceof FovModifierItem item)) return;
+
+		float fov = fovReference.get();
+		fov = item.getFovMultiplier(MinecraftClient.getInstance(), this, fov);
+		fovReference.set(fov);
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.solstice.rollingStones.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BowItem;
@@ -32,7 +33,9 @@ public class BowItemMixin implements FovModifierItem {
 	}
 
 	@Override
-	public float getFovMultiplier(PlayerEntity player, float fov) {
+	public float getFovMultiplier(MinecraftClient client, PlayerEntity player, float fov) {
+		if (!player.isUsingItem()) return fov;
+
 		int useTicks = player.getItemUseTime();
 		float multiplier = (float) useTicks / 20.0F;
 		multiplier = Math.min(multiplier, getMaxPullMultiplier(player));
