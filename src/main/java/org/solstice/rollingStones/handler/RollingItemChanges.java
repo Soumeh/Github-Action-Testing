@@ -2,7 +2,9 @@ package org.solstice.rollingStones.handler;
 
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
@@ -21,6 +23,12 @@ public class RollingItemChanges {
 
 	public static void modifyItems(DefaultItemComponentEvents.ModifyContext context) {
 
+	}
+
+	public static void modifyItemGroups() {
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(RollingItemChanges::addStrongbox);
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(RollingItemChanges::addStrongbox);
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(RollingItemChanges::addSmithingStones);
 	}
 
 	public static void addSmithingStones(FabricItemGroupEntries entries) {

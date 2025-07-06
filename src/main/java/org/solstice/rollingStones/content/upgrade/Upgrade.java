@@ -28,14 +28,14 @@ import java.util.Optional;
 
 public record Upgrade (
 	Optional<Text> description,
-	Definition definition,
-	ComponentMap effects
+	ComponentMap effects,
+	Definition definition
 ) implements EffectHolder {
 
     public static final Codec<Upgrade> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 		TextCodecs.CODEC.optionalFieldOf("description").forGetter(Upgrade::description),
-		Definition.CODEC.forGetter(Upgrade::definition),
-		EnchantmentEffectComponentTypes.COMPONENT_MAP_CODEC.optionalFieldOf("effects", ComponentMap.EMPTY).forGetter(Upgrade::effects)
+		EnchantmentEffectComponentTypes.COMPONENT_MAP_CODEC.optionalFieldOf("effects", ComponentMap.EMPTY).forGetter(Upgrade::effects),
+		Definition.CODEC.forGetter(Upgrade::definition)
     ).apply(instance, Upgrade::new));
 
     public static final Codec<RegistryEntry<Upgrade>> ENTRY_CODEC = RegistryFixedCodec.of(RollingRegistryKeys.UPGRADE);

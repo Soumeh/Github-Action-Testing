@@ -22,8 +22,8 @@ public class RollingUpgrades {
 
 	public static final Upgrade EMPTY = new Upgrade(
 		Optional.empty(),
-		new Upgrade.Definition(RegistryEntryList.empty(), 0, List.of()),
-		ComponentMap.EMPTY
+		ComponentMap.EMPTY,
+		new Upgrade.Definition(RegistryEntryList.empty(), 0, List.of())
 	);
 
 	public static void bootstrap(Registerable<Upgrade> registry) {

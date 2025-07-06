@@ -4,7 +4,7 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.command.ServerCommandSource;
-import org.solstice.euclidsElements.content.api.command.ListedRegistryEntryArgumentType;
+import org.solstice.euclidsElements.api.command.ListedRegistryEntryArgumentType;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
 import org.solstice.rollingStones.registry.RollingRegistryKeys;
 

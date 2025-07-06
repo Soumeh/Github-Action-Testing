@@ -28,14 +28,14 @@ public class UpgradeCommand {
 
 		builder.then(CommandManager.argument("targets", EntityArgumentType.entities())
 			.then(CommandManager.argument("upgrade", UpgradeArgumentType.upgrade(registryAccess))
-				.executes(context -> execute(
+				.executes(context -> applyUpgrade(
 					context.getSource(),
 					EntityArgumentType.getEntities(context, "targets"),
 					UpgradeArgumentType.getUpgrade(context, "upgrade")
 				)
 			)
 			.then(CommandManager.argument("level", IntegerArgumentType.integer(0))
-				.executes(context -> execute(
+				.executes(context -> applyUpgrade(
 					context.getSource(),
 					EntityArgumentType.getEntities(context, "targets"),
 					UpgradeArgumentType.getUpgrade(context, "upgrade"),
@@ -47,15 +47,15 @@ public class UpgradeCommand {
 		dispatcher.register(builder);
 	}
 
-	private static int execute(
+	private static int applyUpgrade(
 		ServerCommandSource source,
 		Collection<? extends Entity> targets,
 		RegistryEntry<Upgrade> entry
 	) throws CommandSyntaxException {
-		return execute(source, targets, entry, entry.value().getDefinition().maxTier());
+		return applyUpgrade(source, targets, entry, entry.value().getDefinition().maxTier());
 	}
 
-	private static int execute(
+	private static int applyUpgrade(
 		ServerCommandSource source,
 		Collection<? extends Entity> targets,
 		RegistryEntry<Upgrade> entry,

@@ -1,15 +1,13 @@
 {
 	"block.strongbox.open": {
 		"sounds": [
-			"block/chest/open"
+			"rolling_stones:block/strongbox/open"
 		],
 		"subtitle": "subtitles.block.rolling_stones.strongbox.open"
 	},
 	"block.strongbox.close": {
 		"sounds": [
-			"block/chest/close1",
-			"block/chest/close2",
-			"block/chest/close3"
+			"rolling_stones:block/strongbox/close"
 		],
 		"subtitle": "subtitles.block.rolling_stones.strongbox.close"
 	},

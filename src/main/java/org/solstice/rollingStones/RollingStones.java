@@ -2,9 +2,7 @@ package org.solstice.rollingStones;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.minecraft.item.ItemGroups;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,27 +21,26 @@ public class RollingStones implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		RollingSoundEvents.init();
 		RollingRegistryKeys.init();
 		RollingRegistries.init();
 		RollingAttributes.init();
+		RollingComponentTypes.init();
 
 		RollingItems.init();
 		RollingBlocks.init();
 		RollingBlockEntityTypes.init();
-		RollingComponentTypes.init();
 		RollingRecipeSerializers.init();
 
+		RollingEnchantmentEffects.init();
 		RollingLootFunctionTypes.init();
 		RollingAdvancementCriteria.init();
 		RollingPredicates.init();
 
 		RollingTags.init();
+		RollingSoundEvents.init();
 		RollingCommands.init();
 
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(RollingItemChanges::addStrongbox);
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(RollingItemChanges::addStrongbox);
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(RollingItemChanges::addSmithingStones);
+		RollingItemChanges.modifyItemGroups();
 		DefaultItemComponentEvents.MODIFY.register(RollingItemChanges::modifyItems);
 		RollingLootTableChanges.modifyVillagerTrades();
 		LootTableEvents.MODIFY.register(RollingLootTableChanges::modifyLootTables);

@@ -5,7 +5,7 @@
 		"any"
 	],
 	"effects": {
-		"euclids_elements:max_durability": {
+		"rolling_stones:max_durability": {
 			"type": "minecraft:multiply",
 			"factor": {
 				"type": "minecraft:linear",
