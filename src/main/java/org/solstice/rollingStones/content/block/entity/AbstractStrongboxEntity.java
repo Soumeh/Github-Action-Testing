@@ -28,9 +28,11 @@ public abstract class AbstractStrongboxEntity extends LootableContainerBlockEnti
 
 	private static final Integer MAX_OPEN_PROGRESS = 8;
 
-	private int closeTicks = 0;
+	private int closeTicks = -1;
+
 	private int openProgress = 0;
 	private int lastOpenProgress = 0;
+
 	private float animationProgress = 0;
 	private float lastAnimationProgress = 0;
 	private final ViewerCountManager stateManager;
@@ -52,17 +54,14 @@ public abstract class AbstractStrongboxEntity extends LootableContainerBlockEnti
 		this.closeTicks = closeTicks;
 	}
 
-	public void tryOpening(World world, BlockPos pos, int strength) {
-		float pitch = (float)this.openProgress / MAX_OPEN_PROGRESS;
-		pitch = 1.5F - pitch * 1.5F;
-		world.playSound(null, pos, RollingSoundEvents.STRONGBOX_OPEN, SoundCategory.BLOCKS, 0.25F, pitch);
+	public boolean tryOpening(World world, BlockPos pos, int strength) {
+		if (this.closeTicks > MAX_OPEN_PROGRESS - 10) return false;
+
+		float power = (float) this.openProgress / MAX_OPEN_PROGRESS;
+		float volume = Math.max(power, 0.5F);
+		if (power != 1) world.playSound(null, pos, RollingSoundEvents.STRONGBOX_OPEN, SoundCategory.BLOCKS, volume, power);
 		this.updateOpening(Math.min(this.openProgress + strength, MAX_OPEN_PROGRESS));
-		System.out.println(this.openProgress);
-//		this.markDirty();
-//
-//		this.lastOpenProgress = this.openProgress;
-//		this.openProgress = Math.min(this.openProgress + strength, MAX_OPEN_PROGRESS);
-//		((ServerWorld)world).getChunkManager().markForUpdate(pos);
+		return true;
 	}
 
 	public void updateOpening(int progress) {
@@ -140,13 +139,13 @@ public abstract class AbstractStrongboxEntity extends LootableContainerBlockEnti
 
 	public void serverUpdate(World world) {
 		if (this.stateManager.getViewerCount() > 0) return;
-		if (this.openProgress == MAX_OPEN_PROGRESS) {
-			this.updateOpening(0);
-			world.playSound(null, this.getPos(), RollingSoundEvents.STRONGBOX_CLOSE, SoundCategory.BLOCKS, 0.5F, 1);
-		} else if (this.openProgress < MAX_OPEN_PROGRESS) {
-			this.updateOpening(0, -1);
-			world.playSound(null, this.getPos(), RollingSoundEvents.STRONGBOX_SLAM, SoundCategory.BLOCKS, 0.75F, 1);
-		}
+		if (this.openProgress >= MAX_OPEN_PROGRESS) return;
+
+		float power = (float) this.openProgress / MAX_OPEN_PROGRESS;
+		float volume = Math.max(power, 0.5F);
+		float pitch = Math.max(2 - power * 2, 1);
+		world.playSound(null, this.getPos(), RollingSoundEvents.STRONGBOX_SLAM, SoundCategory.BLOCKS, volume, pitch);
+		this.updateOpening(0, -1);
 	}
 
 	public void clientUpdate() {
@@ -177,12 +176,14 @@ public abstract class AbstractStrongboxEntity extends LootableContainerBlockEnti
 
 		@Override
 		protected void onContainerOpen(World world, BlockPos pos, BlockState state) {
-			world.playSound(null, pos, RollingSoundEvents.STRONGBOX_OPEN, SoundCategory.BLOCKS, 1, 1);
+			world.playSound(null, pos, RollingSoundEvents.STRONGBOX_OPEN, SoundCategory.BLOCKS);
 		}
 
 		@Override
 		protected void onContainerClose(World world, BlockPos pos, BlockState state) {
-			this.entity.scheduleClose();
+			world.playSound(null, this.entity.getPos(), RollingSoundEvents.STRONGBOX_CLOSE, SoundCategory.BLOCKS);
+			this.entity.scheduleClose(-1);
+			this.entity.updateOpening(0);
 		}
 
 		@Override

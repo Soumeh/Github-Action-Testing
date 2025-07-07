@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org)
 - Changed the Tension upgrade to use the `max_pull_time_multiplier` attribute instead of just copying the Power enchantment
 - Moved `max_durability` enchantment effect from Euclid's Elements to here
 - Added new Strongbox texture (thanks obi)
-- Added (probably not that good) new sounds for the Strongbox
+- Added new (probably not that good) sounds for the Strongbox
 
 ## 0.1.2
 Initial Beta Release!

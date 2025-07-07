@@ -13,15 +13,8 @@
 	},
 	"block.strongbox.slam": {
 		"sounds": [
-			"random/anvil_land"
+			"rolling_stones:block/strongbox/slam"
 		],
 		"subtitle": "subtitles.block.rolling_stones.strongbox.slam"
-	},
-	"block.strongbox.locked": {
-		"sounds": [
-			"block/chest/close_locked",
-			"block/chest/open_locked"
-		],
-		"subtitle": "subtitles.block.rolling_stones.strongbox.locked"
 	}
 }

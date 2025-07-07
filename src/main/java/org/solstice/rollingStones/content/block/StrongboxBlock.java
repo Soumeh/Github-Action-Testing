@@ -54,7 +54,7 @@ public class StrongboxBlock extends AbstractStrongboxBlock implements Waterlogga
 	@Override
 	protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (isChestBlocked(world, pos)) return ActionResult.PASS;
-		if (world.isClient) return ActionResult.SUCCESS;
+		if (world.isClient) return ActionResult.PASS;
 
 		if (world.getBlockEntity(pos) instanceof StrongboxEntity strongboxEntity) {
 			int strength;
@@ -62,15 +62,18 @@ public class StrongboxBlock extends AbstractStrongboxBlock implements Waterlogga
 			if (effect != null) strength = 4 * (1 + effect.getAmplifier());
 			else strength = 1;
 
-			strongboxEntity.tryOpening(world, pos, strength);
+			boolean tryOpen = strongboxEntity.tryOpening(world, pos, strength);
+			if (!tryOpen) return ActionResult.FAIL;
+
 			if (strongboxEntity.canOpen()) {
 				player.openHandledScreen(strongboxEntity);
 				player.incrementStat(this.getOpenStat());
-			} else
+			} else {
 				strongboxEntity.scheduleClose();
+			}
 		}
 
-		return ActionResult.CONSUME;
+		return ActionResult.SUCCESS;
 	}
 
 	@Override
