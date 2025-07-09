@@ -10,6 +10,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import org.solstice.rollingStones.RollingStones;
+import org.solstice.rollingStones.content.item.CursedSmithingStoneItem;
 import org.solstice.rollingStones.content.item.SmithingStoneItem;
 
 import java.util.Map;
@@ -23,6 +24,11 @@ public class RollingItems {
 		SmithingStoneItem::new,
 		new Item.Settings()
     );
+	public static final Item MALEDICTIVE_SMITHING_STONE = register("maledictive_smithing_stone",
+		settings -> new CursedSmithingStoneItem(settings, random -> random.nextBetween(2, 3)),
+		new Item.Settings()
+			.rarity(Rarity.UNCOMMON)
+	);
     public static final Item HONED_SMITHING_STONE = register("honed_smithing_stone",
 		SmithingStoneItem::new,
 		new Item.Settings()

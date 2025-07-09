@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org)
 
 ## [Unreleased]
 
+- Changed Strongbox behavior to tick opening on a cooldown (twice a second)
+- Updated Strongbox sound effects
+- New Maledictive Smithing Stones, which apply curses to items on upgrade
+-
+
 ## 0.2.0
 
 - Changed Bow critical hits to only apply when released on the last 1/5th of the pulling animation

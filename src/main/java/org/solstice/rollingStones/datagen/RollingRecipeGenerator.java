@@ -1,6 +1,5 @@
 package org.solstice.rollingStones.datagen;
 
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
@@ -33,20 +32,23 @@ import static org.solstice.rollingStones.registry.RollingUpgrades.*;
 
 public class RollingRecipeGenerator extends AdvancedRecipeProvider {
 
-	public static final Object2IntOpenHashMap<Item> SMITHING_STONE_TIERS = new Object2IntOpenHashMap<>(Map.of(
-		RollingItems.SIMPLE_SMITHING_STONE, 1,
-		RollingItems.HONED_SMITHING_STONE, 2,
-		RollingItems.GILDED_SMITHING_STONE, 3
-	));
+	public record SmithingStoneData(Item item, int tier, String name) {}
+
+	public static final List<SmithingStoneData> SMITHING_STONE_DATA = List.of(
+		new SmithingStoneData(RollingItems.SIMPLE_SMITHING_STONE, 1, "simple"),
+		new SmithingStoneData(RollingItems.MALEDICTIVE_SMITHING_STONE, 2, "maledictive"),
+		new SmithingStoneData(RollingItems.HONED_SMITHING_STONE, 2, "honed"),
+		new SmithingStoneData(RollingItems.GILDED_SMITHING_STONE, 3, "gilded")
+	);
 
 	public static final Map<RegistryKey<Upgrade>, Item> UPGRADE_MATERIALS = Map.of(
 		DENSITY, Items.TUFF,
-		DRAWBACK, Items.BLACKSTONE,
+		DRAWBACK, Items.ANDESITE,
 		DURABILITY, Items.COBBLESTONE,
-		EFFICIENCY, Items.PAPER,
-		PROTECTION, Items.IRON_INGOT,
-		SHARPNESS, Items.FLINT,
-		TENSION, Items.STRING
+		EFFICIENCY, Items.DEEPSLATE,
+		PROTECTION, Items.GRANITE,
+		SHARPNESS, Items.BASALT,
+		TENSION, Items.DIORITE
 	);
 
 	protected final DataOutput.PathResolver recipesPathResolver;
@@ -78,24 +80,22 @@ public class RollingRecipeGenerator extends AdvancedRecipeProvider {
 			.offerTo(exporter);
 
 		Ingredient base = Ingredient.fromTag(RollingTags.UPGRADABLE);
-		SMITHING_STONE_TIERS.forEach((smithingStoneItem, tier) -> {
-			Ingredient template = Ingredient.ofItems(smithingStoneItem);
+		SMITHING_STONE_DATA.forEach(data -> {
+			Item item = data.item;
+			Ingredient template = Ingredient.ofItems(item);
 			UPGRADE_MATERIALS.forEach((upgradeKey, upgradeItem) -> {
 				Ingredient addition = Ingredient.ofItems(upgradeItem);
 				RegistryEntry<Upgrade> upgrade = registryLookup.getWrapperOrThrow(RollingRegistryKeys.UPGRADE).getOrThrow(upgradeKey);
 				Identifier upgradeId = upgradeKey.getValue();
 
-				String name = "upgrade/" + upgradeId.getPath() + "/tier_" + tierNames[tier - 1];
-
+				String name = "upgrade/" + upgradeId.getPath() + "/" + data.name;
 				Identifier path = Identifier.of(upgradeId.getNamespace(), name);
 
-				SmithingUpgradeRecipeBuilder.create(RecipeCategory.MISC, template, base, addition, upgrade, tier, true)
-					.criterion("has_smithing_stone", conditionsFromItem(smithingStoneItem))
+				SmithingUpgradeRecipeBuilder.create(RecipeCategory.MISC, template, base, addition, upgrade, data.tier, true)
+					.criterion("has_smithing_stone", conditionsFromItem(item))
 					.offerTo(exporter, path);
 			});
 		});
 	}
-
-	public static String[] tierNames = new String[]{"one", "two", "three"};
 
 }

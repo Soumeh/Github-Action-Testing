@@ -9,7 +9,10 @@
 	"advancements.story.rolling_stones.upgrade_pickaxe_fully.title": "Decked Out",
 	"advancements.story.rolling_stones.upgrade_pickaxe_fully.description": "Fully upgrade a Pickaxe",
 
-    "item.decorations": "Decorations:",
+	"item.smithing_stone.tooltip": "+%s %s",
+	"item.cursed_smithing_stone.tooltip": "Cursed!",
+
+	"item.decorations": "Decorations:",
     "item.enchantments": "Enchantments:",
     "item.upgrades": "Upgrades:",
     "item.attributes": "Attributes:",
@@ -18,6 +21,7 @@
 	"enchantment.rolling_stones.hater.desc": "Increased damage to humanoids",
 	"enchantment.rolling_stones.elemental_ward.desc": "Increased resistance to explosions, falls and collision",
 	"enchantment.rolling_stones.impact_protection.desc": "Increased resistance to fire, air, water and earth",
+	"enchantment.rolling_stones.fragile_curse": "Curse of Fragileness",
 
 	"container.rolling_stones.strongbox": "Strongbox",
 
@@ -25,7 +29,8 @@
 	"subtitles.block.rolling_stones.strongbox.close": "Strongbox closes",
 	"subtitles.block.rolling_stones.strongbox.slam": "Strongbox slams",
 
-    "item.smithing_stone.tooltip": "+%s %s",
     "upgrade.tiers": " [%s/%s]",
-	"upgrade.tier": " %s"
+	"upgrade.tier": " %s",
+
+	"container.repair.cursed": "Cursed!"
 }

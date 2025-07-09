@@ -3,20 +3,29 @@ package org.solstice.rollingStones.content.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.trim.ArmorTrim;
+import net.minecraft.item.trim.ArmorTrimMaterial;
+import net.minecraft.item.trim.ArmorTrimMaterials;
+import net.minecraft.item.trim.ArmorTrimPattern;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.input.SmithingRecipeInput;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import org.solstice.rollingStones.content.item.SmithingStoneItem;
 import org.solstice.rollingStones.content.item.component.ItemUpgradesComponent;
 import org.solstice.rollingStones.content.upgrade.Upgrade;
 import org.solstice.rollingStones.content.upgrade.UpgradeHelper;
 import org.solstice.rollingStones.registry.*;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public record SmithingUpgradeRecipe (
@@ -26,7 +35,7 @@ public record SmithingUpgradeRecipe (
 		RegistryEntry<Upgrade> upgrade,
 		int tier,
 		boolean requiresPreviousTier
-) implements SmithingRecipe {
+) implements RandomizedSmithingRecipe {
 
     public static final MapCodec<SmithingUpgradeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("template").forGetter(SmithingUpgradeRecipe::template),
@@ -53,7 +62,7 @@ public record SmithingUpgradeRecipe (
 	}
 
 	@Override
-	public ItemStack craft(SmithingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+	public ItemStack craft(SmithingRecipeInput input, RegistryWrapper.WrapperLookup lookup, Random random) {
 		if (!this.template.test(input.template())) return ItemStack.EMPTY;
 		if (!this.base.test(input.base())) return ItemStack.EMPTY;
 
@@ -78,14 +87,16 @@ public record SmithingUpgradeRecipe (
 
 		ItemStack result = input.base().copyWithCount(1);
 		result.set(RollingComponentTypes.UPGRADES, builder.build());
+		if (input.template().getItem() instanceof SmithingStoneItem item) result = item.onUpgrade(result, lookup, random);
+
 		return result;
 	}
 
 	@Override
 	public ItemStack getResult(RegistryWrapper.WrapperLookup lookup) {
-		ItemStack stack = new ItemStack(Items.IRON_CHESTPLATE);
-		UpgradeHelper.apply(stack, builder -> builder.set(this.upgrade, this.tier));
-		return stack;
+		ItemStack result = new ItemStack(Items.IRON_CHESTPLATE);
+		UpgradeHelper.apply(result, builder -> builder.set(this.upgrade, this.tier));
+		return result;
 	}
 
 	@Override

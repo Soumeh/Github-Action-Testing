@@ -32,11 +32,12 @@
 ### Simple Smithing Stone (Tier 1)
 | Location                   | Chance | Notes                             |
 |----------------------------|--------|-----------------------------------|
-| Abandoned Mineshaft Chests | 100%   |                                   |
+| Abandoned Mineshaft Chests | 50%    |                                   |
 | Dungeon Chests             | 50%    |                                   |
-| Zombie Drops               | 5%     | Including Alt zombie types        |
 | Village Chests             | 50%    | Armorer / Toolsmith / Weaponsmith |
 | Apprentice Villager Trades | 33%    | ~32 Emeralds, 4 in stock          |
+| Trial Chamber Vaults       | 33%    |                                   |
+| Zombie Drops               | 5%     |                                   |
 
 ### Honed Smithing Stone (Tier 2)
 | Location               | Chance | Notes |

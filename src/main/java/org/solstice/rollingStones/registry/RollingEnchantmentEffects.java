@@ -8,6 +8,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.util.Unit;
 import org.solstice.rollingStones.RollingStones;
 
 public class RollingEnchantmentEffects {
@@ -15,6 +16,7 @@ public class RollingEnchantmentEffects {
 	public static void init() {}
 
 	public static final ComponentType<EnchantmentValueEffect> MAX_DURABILITY = register("max_durability", EnchantmentValueEffect.CODEC);
+	public static final ComponentType<Unit> PREVENT_REPAIRING = register("prevent_repairing", Unit.CODEC);
 
 	private static <T> ComponentType<T> register(String name, Codec<T> codec) {
 		return register(name, codec, PacketCodecs.registryCodec(codec));
