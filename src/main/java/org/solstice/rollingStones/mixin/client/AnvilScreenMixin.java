@@ -13,22 +13,18 @@ import net.minecraft.screen.AnvilScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.solstice.rollingStones.registry.RollingEnchantmentEffects;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Debug(export = true)
 @Mixin(AnvilScreen.class)
 public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler> {
 
-	@Shadow
-	@Final
-	private PlayerEntity player;
-	@Unique
-	private static final Text CURSED_TEXT = Text.translatable("container.repair.cursed");
+	@Shadow @Final private PlayerEntity player;
+
+	@Unique private static final Text CURSED_TEXT = Text.translatable("container.repair.cursed");
 
 	public AnvilScreenMixin(AnvilScreenHandler handler, PlayerInventory playerInventory, Text title, Identifier texture) {
 		super(handler, playerInventory, title, texture);
@@ -36,34 +32,19 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 
 	@Inject(
 		method = "drawForeground",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/screen/slot/Slot;canTakeItems(Lnet/minecraft/entity/player/PlayerEntity;)Z"
-		)
+		at = @At("TAIL")
 	)
 	protected void drawForeground(
 		DrawContext context,
-		int mouseX,
-		int mouseY,
-		CallbackInfo ci,
-		@Local(index = 5) LocalIntRef color,
-		@Local LocalRef<Text> textRef
+		int mx,
+		int my,
+		CallbackInfo ci
 	) {
-		if (this.handler.getSlot(2).canTakeItems(this.player)) return;
-		if (this.handler.getLevelCost() > 0) return;
+		if (this.handler.getLevelCost() != -1) return;
 
-		boolean primaryCursed = EnchantmentHelper.hasAnyEnchantmentsWith(
-			this.handler.getSlot(2).getStack(),
-			RollingEnchantmentEffects.PREVENT_REPAIRING
-		);
-		boolean secondaryCursed = EnchantmentHelper.hasAnyEnchantmentsWith(
-			this.handler.getSlot(1).getStack(),
-			RollingEnchantmentEffects.PREVENT_REPAIRING
-		);
-		if (primaryCursed || secondaryCursed) {
-			color.set(16736352);
-			textRef.set(CURSED_TEXT);
-		}
+		int k = this.backgroundWidth - 8 - this.textRenderer.getWidth(CURSED_TEXT) - 2;
+		context.fill(k - 2, 67, this.backgroundWidth - 8, 79, 1325400064);
+		context.drawTextWithShadow(this.textRenderer, CURSED_TEXT, k, 69, 16736352);
 	}
 
 }

@@ -20,6 +20,10 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
 
 	@Shadow @Final private Property levelCost;
 
+	@Shadow
+	@Nullable
+	private String newItemName;
+
 	public AnvilScreenHandlerMixin(@Nullable ScreenHandlerType<?> type, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
 		super(type, syncId, playerInventory, context);
 	}
@@ -47,6 +51,8 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
 	private void checkForCursed(
 		CallbackInfo ci
 	) {
+		if (this.newItemName != null && this.input.getStack(1).isEmpty()) return;
+
 		boolean primaryCursed = EnchantmentHelper.hasAnyEnchantmentsWith(
 			this.input.getStack(0),
 			RollingEnchantmentEffects.PREVENT_REPAIRING
@@ -56,7 +62,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
 			RollingEnchantmentEffects.PREVENT_REPAIRING
 		);
 		if (primaryCursed || secondaryCursed) {
-			this.levelCost.set(0);
+			this.levelCost.set(-1);
 			ci.cancel();
 		}
 	}
