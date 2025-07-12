@@ -7,11 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org)
 
 ## [Unreleased]
 
+## 0.3.0
+
 - Changed Strongbox behavior to tick opening on a cooldown (twice a second)
 - Updated Strongbox sound effects
 - New Maledictive Smithing Stones, which apply curses to items on upgrade
 - New Fragility curse, which prevents items from being repaired
-- Increase Durability upgrade multiplier increase to x1 from x0.333
 
 ## 0.2.0
 
