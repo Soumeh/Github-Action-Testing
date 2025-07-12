@@ -1,0 +1,6 @@
+{
+	"target": "#minecraft:diamond_tools",
+	"components": {
+		"minecraft:max_damage": 1024
+	}
+}

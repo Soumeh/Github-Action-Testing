@@ -55,7 +55,7 @@ public abstract class AbstractStrongboxEntity extends LootableContainerBlockEnti
 	}
 
 	public boolean tryOpening(World world, BlockPos pos, int strength) {
-		if (this.closeTicks > MAX_OPEN_PROGRESS - 10) return false;
+		if (this.closeTicks > 50) return false;
 
 		float power = (float) this.openProgress / MAX_OPEN_PROGRESS;
 		float volume = Math.max(power, 0.5F);

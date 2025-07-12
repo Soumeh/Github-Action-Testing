@@ -1,5 +1,6 @@
 package org.solstice.rollingStones.handler;
 
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableSource;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.item.Item;
@@ -41,6 +42,10 @@ public class RollingLootTableChanges {
 			case "minecraft:chests/village/village_armorer",
 				 "minecraft:chests/village/village_weaponsmith",
 				 "minecraft:chests/village/village_toolsmith" -> addPool(builder, RollingItems.SIMPLE_SMITHING_STONE, 0.333F);
+			case "minecraft:chests/trial_chambers/reward_rare" -> modifyPool(builder, RollingItems.SIMPLE_SMITHING_STONE, 4);
+
+			case "minecraft:chests/ancient_city" -> addPool(builder, RollingItems.MALEDICTIVE_SMITHING_STONE, 0.5F);
+			case "minecraft:chests/trial_chambers/reward_ominous_rare" -> modifyPool(builder, RollingItems.MALEDICTIVE_SMITHING_STONE, 5);
 
 			case "minecraft:chests/nether_bridge" -> addPool(builder, RollingItems.HONED_SMITHING_STONE, 0.2F);
 			case "minecraft:chests/bastion_other" -> addPool(builder, RollingItems.HONED_SMITHING_STONE, 0.333F);

@@ -25,7 +25,7 @@ public class RollingItems {
 		new Item.Settings()
     );
 	public static final Item MALEDICTIVE_SMITHING_STONE = register("maledictive_smithing_stone",
-		settings -> new CursedSmithingStoneItem(settings, random -> random.nextBetween(2, 3)),
+		settings -> new CursedSmithingStoneItem(settings, 3),
 		new Item.Settings()
 			.rarity(Rarity.UNCOMMON)
 	);

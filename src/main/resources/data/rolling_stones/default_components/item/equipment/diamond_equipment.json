@@ -1,0 +1,6 @@
+{
+	"target": "#minecraft:diamond_equipment",
+	"components": {
+		"minecraft:max_damage": 512
+	}
+}

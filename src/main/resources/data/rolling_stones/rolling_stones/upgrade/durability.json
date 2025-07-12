@@ -9,8 +9,8 @@
 			"type": "minecraft:multiply",
 			"factor": {
 				"type": "minecraft:linear",
-				"base": 1.3333333333333334,
-				"per_level_above_first": 1.3333333333333334
+				"base": 2,
+				"per_level_above_first": 1
 			}
 		}
 	}

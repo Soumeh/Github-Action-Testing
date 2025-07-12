@@ -1,0 +1,6 @@
+{
+	"target": "#minecraft:wooden_tools",
+	"components": {
+		"minecraft:max_damage": 64
+	}
+}

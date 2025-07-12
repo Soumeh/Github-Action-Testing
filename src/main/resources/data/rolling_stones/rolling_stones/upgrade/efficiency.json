@@ -7,9 +7,14 @@
 	"effects": {
 		"minecraft:attributes": [
 			{
-				"amount": {
+				".amount": {
 					"type": "minecraft:levels_squared",
-					"added": 1.6666666666666667
+					"added": 5
+				},
+				"amount": {
+					"type": "minecraft:linear",
+					"base": 10,
+					"per_level_above_first": 10
 				},
 				"attribute": "minecraft:player.mining_efficiency",
 				"id": "minecraft:enchantment.efficiency",

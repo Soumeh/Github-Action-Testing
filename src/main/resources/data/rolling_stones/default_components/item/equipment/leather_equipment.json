@@ -1,0 +1,6 @@
+{
+	"target": "#minecraft:leather_equipment",
+	"components": {
+		"minecraft:max_damage": 64
+	}
+}

@@ -3,17 +3,11 @@ package org.solstice.rollingStones.content.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.trim.ArmorTrim;
-import net.minecraft.item.trim.ArmorTrimMaterial;
-import net.minecraft.item.trim.ArmorTrimMaterials;
-import net.minecraft.item.trim.ArmorTrimPattern;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.input.SmithingRecipeInput;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
@@ -25,7 +19,6 @@ import org.solstice.rollingStones.content.upgrade.Upgrade;
 import org.solstice.rollingStones.content.upgrade.UpgradeHelper;
 import org.solstice.rollingStones.registry.*;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public record SmithingUpgradeRecipe (

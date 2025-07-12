@@ -1,0 +1,6 @@
+{
+	"target": "#minecraft:netherite_tools",
+	"components": {
+		"minecraft:max_damage": 2048
+	}
+}

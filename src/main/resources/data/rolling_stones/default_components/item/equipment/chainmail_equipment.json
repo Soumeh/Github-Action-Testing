@@ -1,0 +1,6 @@
+{
+	"target": "#minecraft:chainmail_equipment",
+	"components": {
+		"minecraft:max_damage": 128
+	}
+}

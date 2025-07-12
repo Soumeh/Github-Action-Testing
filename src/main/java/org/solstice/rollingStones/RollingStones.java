@@ -30,6 +30,7 @@ public class RollingStones implements ModInitializer {
 		RollingBlocks.init();
 		RollingBlockEntityTypes.init();
 		RollingRecipeSerializers.init();
+		RollingItemGroups.init();
 
 		RollingEnchantmentEffects.init();
 		RollingLootFunctionTypes.init();
@@ -40,7 +41,6 @@ public class RollingStones implements ModInitializer {
 		RollingSoundEvents.init();
 		RollingCommands.init();
 
-		RollingItemChanges.modifyItemGroups();
 		DefaultItemComponentEvents.MODIFY.register(RollingItemChanges::modifyItems);
 		RollingLootTableChanges.modifyVillagerTrades();
 		LootTableEvents.MODIFY.register(RollingLootTableChanges::modifyLootTables);

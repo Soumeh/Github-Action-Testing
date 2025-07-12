@@ -19,32 +19,31 @@ import java.util.function.Supplier;
 
 public class CursedSmithingStoneItem extends SmithingStoneItem {
 
-	private final Function<Random, Integer> curseRolls;
+	private final int curseRolls;
 
-    public CursedSmithingStoneItem(Settings settings, Function<Random, Integer> curseRolls) {
+    public CursedSmithingStoneItem(Settings settings, int curseRolls) {
         super(settings);
 		this.curseRolls = curseRolls;
     }
 
-	@Override
-	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-		super.appendTooltip(stack, context, tooltip, type);
-		Text text = Text.translatable("item.cursed_smithing_stone.tooltip").formatted(Formatting.RED);
-		tooltip.add(text);
-	}
+//	@Override
+//	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+//		super.appendTooltip(stack, context, tooltip, type);
+//		Text text = Text.translatable("item.cursed_smithing_stone.tooltip").formatted(Formatting.RED);
+//		tooltip.add(text);
+//	}
 
 	@Override
 	public ItemStack onUpgrade(ItemStack stack, RegistryWrapper.WrapperLookup lookup, Random random) {
-		int curseAmount = this.curseRolls.apply(random);
+		int curseRolls = this.curseRolls;
 
 		RegistryEntryList<Enchantment> curses = lookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(EnchantmentTags.CURSE);
-		while (curseAmount > 0) {
-			int i = random.nextInt(curses.size());
-			RegistryEntry<Enchantment> curse = curses.get(i);
+		while (curseRolls > 0) {
+			RegistryEntry<Enchantment> curse = curses.getRandom(random).get();
 			int level = random.nextBetween(curse.value().getMinLevel(), curse.value().getMaxLevel());
 
 			stack.addEnchantment(curse, level);
-			--curseAmount;
+			--curseRolls;
 		}
 
 		return stack;

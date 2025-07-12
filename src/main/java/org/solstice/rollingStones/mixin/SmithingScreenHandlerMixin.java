@@ -31,8 +31,7 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
 
 	@Shadow @Nullable private RecipeEntry<SmithingRecipe> currentRecipe;
 
-	@Shadow
-	protected abstract SmithingRecipeInput createRecipeInput();
+//	@Shadow protected abstract SmithingRecipeInput createRecipeInput();
 
 	@Unique private Random random;
 	@Unique private Property seed;
@@ -53,12 +52,13 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
 		if (this.currentRecipe == null) return;
 		if (!this.currentRecipe.value().getSerializer().equals(RollingRecipeSerializers.SMITHING_UPGRADE)) return;
 
+		this.seed.set(this.random.nextInt());
 		RollingAdvancementCriteria.UPGRADED_ITEM.trigger((ServerPlayerEntity)player, stack, this.currentRecipe.id());
 	}
 
 	@Inject(method = "updateResult", at = @At("HEAD"))
 	private void setRandomSeed(CallbackInfo ci) {
-		this.random.setSeed(this.seed.get() + this.input.getStack(1).hashCode());
+		this.random.setSeed(this.seed.get() + this.input.getStack(1).getItem().hashCode());
 	}
 
 	@WrapOperation(
@@ -78,6 +78,5 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
 		if (entry.value() instanceof RandomizedSmithingRecipe recipe) return recipe.craft((SmithingRecipeInput)input, lookup, this.random);
 		return original.call(instance, input, lookup);
 	}
-
 
 }
