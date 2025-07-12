@@ -12,11 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(GrindstoneScreenHandler.class)
 public class GrindstoneScreenHandlerMixin {
 
-	@Inject(
-		method = "getOutputStack",
-		at = @At("HEAD"),
-		cancellable = true
-	)
+	@Inject(method = "getOutputStack", at = @At("HEAD"), cancellable = true)
 	private void checkForCursed(
 		ItemStack firstInput, ItemStack secondInput, CallbackInfoReturnable<ItemStack> cir
 	) {

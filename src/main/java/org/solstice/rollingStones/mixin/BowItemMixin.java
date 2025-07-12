@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BowItem;
-import org.solstice.rollingStones.content.item.FovModifierItem;
 import org.solstice.rollingStones.registry.RollingAttributes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -13,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(BowItem.class)
-public class BowItemMixin implements FovModifierItem {
+public class BowItemMixin {
 
 	@Unique
 	private static float getPullProgress(LivingEntity user, int useTicks) {

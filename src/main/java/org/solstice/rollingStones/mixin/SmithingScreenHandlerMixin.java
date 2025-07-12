@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 import org.solstice.rollingStones.content.recipe.RandomizedSmithingRecipe;
 import org.solstice.rollingStones.registry.RollingAdvancementCriteria;
 import org.solstice.rollingStones.registry.RollingRecipeSerializers;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -30,8 +29,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
 
 	@Shadow @Nullable private RecipeEntry<SmithingRecipe> currentRecipe;
-
-//	@Shadow protected abstract SmithingRecipeInput createRecipeInput();
 
 	@Unique private Random random;
 	@Unique private Property seed;
@@ -57,7 +54,7 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
 	}
 
 	@Inject(method = "updateResult", at = @At("HEAD"))
-	private void setRandomSeed(CallbackInfo ci) {
+	private void setSeed(CallbackInfo ci) {
 		this.random.setSeed(this.seed.get() + this.input.getStack(1).getItem().hashCode());
 	}
 
