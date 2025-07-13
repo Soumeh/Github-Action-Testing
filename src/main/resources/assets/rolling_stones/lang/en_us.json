@@ -32,5 +32,7 @@
     "upgrade.tiers": " [%s/%s]",
 	"upgrade.tier": " %s",
 
-	"container.repair.cursed": "Cursed!"
+	"container.repair.cursed": "Cursed!",
+
+	"death.attack.rolling_stones.broken_fingers": "%1$s went from lassan to friska"
 }

@@ -5,6 +5,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LidOpenable;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.block.entity.ViewerCountManager;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.NbtCompound;
@@ -19,10 +20,15 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.solstice.rollingStones.registry.RollingDamageSources;
 import org.solstice.rollingStones.registry.RollingSoundEvents;
+
+import java.util.List;
 
 public abstract class AbstractStrongboxEntity extends LootableContainerBlockEntity implements LidOpenable {
 
@@ -145,6 +151,15 @@ public abstract class AbstractStrongboxEntity extends LootableContainerBlockEnti
 		float volume = Math.max(power, 0.5F);
 		float pitch = Math.max(2 - power * 2, 1);
 		world.playSound(null, this.getPos(), RollingSoundEvents.STRONGBOX_SLAM, SoundCategory.BLOCKS, volume, pitch);
+
+		Vec3d position = Vec3d.of(this.pos);
+		Box box = Box.from(position);
+		List<LivingEntity> entities = world.getNonSpectatingEntities(LivingEntity.class, box);
+		entities.forEach(entity -> entity.damage(
+			RollingDamageSources.brokenFingers(world, position.add(0.5F, 0.5F, 0.5F)),
+			1
+		));
+
 		this.updateOpening(0, -1);
 	}
 

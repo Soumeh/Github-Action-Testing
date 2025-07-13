@@ -39,6 +39,7 @@ public class RollingStones implements ModInitializer {
 
 		RollingTags.init();
 		RollingSoundEvents.init();
+		RollingDamageSources.init();
 		RollingCommands.init();
 
 		DefaultItemComponentEvents.MODIFY.register(RollingItemChanges::modifyItems);
