@@ -27,11 +27,15 @@ dependencies {
 	modImplementation "org.solstice:euclids-elements:$euclids_elements_version"
 }
 
-processResources {
+jar {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+processResources {
 	filesMatching("fabric.mod.json") {
 		expand project.properties
 	}
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 afterEvaluate {

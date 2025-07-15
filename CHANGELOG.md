@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org)
 
 ## 0.3.2
 
-- New Midas Smithing stone, which applies great upgrades but turns your item into gold
+- New Midas Smithing Stone, which applies great upgrades but turns your item into gold
 
 ## 0.3.0
 
