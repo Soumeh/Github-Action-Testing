@@ -21,7 +21,7 @@ public class TransformingSmithingStone extends SmithingStoneItem {
 
 	public ItemStack onUpgrade(ItemStack stack, RegistryWrapper.WrapperLookup lookup, Random random) {
 		RegistryEntry<Item> entry = Registries.ITEM.getEntry(stack.getItem());
-		RegistryEntry<Item> transformedEntry = entry.getValue(
+		RegistryEntry<Item> transformedEntry = entry.getMapValue(
 			this.transformationKey,
 			Registries.ITEM.getEntry(this.defaultItem)
 		);
