@@ -9,31 +9,24 @@ jobs:
             contents: write
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
+            - name: Validate gradle
+              uses: gradle/actions/wrapper-validation@v4
             - name: Setup JDK
-              uses: actions/setup-java@v3
+              uses: actions/setup-java@v4
               with:
-                  distribution: "temurin"
-                  java-version: 21
-                  cache: "gradle"
-            - name: Make gradlew executable
-              run: chmod +x gradlew
+                  distribution: 'microsoft'
+                  java-version: '21'
+                  cache: 'gradle'
+            - name: Executable gradle
+              run: chmod +x ./gradlew
             - name: Run datagen
               run: ./gradlew runDatagen
             - name: Build project
-              run: ./gradlew clean build
+              run: ./gradlew build
             - name: Publish files
               uses: Kir-Antipov/mc-publish@v3.3
               with:
-#                  curseforge-id: "${{ vars.CURSEFORGE_ID }}"
-#                  curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
-#                  curseforge-version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
-                  modrinth-id: "${{ vars.MODRINTH_ID }}"
-                  modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
-                  modrinth-version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
-                  github-tag: "${{ github.event.release.tag_name }}"
-                  github-token: "${{ secrets.GITHUB_TOKEN }}"
-
                   name: "${{ github.event.release.name }}"
                   version: "${{ github.event.release.tag_name }}"
                   version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
@@ -44,3 +37,6 @@ jobs:
                   dependencies: |
                     fabric-api
                     euclids-elements
+
+                  github-tag: "${{ github.event.release.tag_name }}"
+                  github-token: "${{ secrets.GITHUB_TOKEN }}"
