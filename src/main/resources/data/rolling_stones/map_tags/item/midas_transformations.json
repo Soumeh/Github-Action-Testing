@@ -1,0 +1,15 @@
+{
+	"entries": {
+		"#minecraft:helmets": "minecraft:golden_helmet",
+		"#minecraft:chestplates": "minecraft:golden_chestplate",
+		"#minecraft:leggings": "minecraft:golden_leggings",
+		"#minecraft:boots": "minecraft:golden_boots",
+		"#minecraft:swords": "minecraft:golden_sword",
+		"#minecraft:axes": "minecraft:golden_axe",
+		"#minecraft:pickaxe": "minecraft:golden_pickaxe",
+		"#minecraft:shovels": "minecraft:golden_shovel",
+		"#minecraft:hoes": "minecraft:golden_hoe",
+
+		"minecraft:compass": "minecraft:clock"
+	}
+}

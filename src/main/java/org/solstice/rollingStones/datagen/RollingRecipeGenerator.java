@@ -38,7 +38,8 @@ public class RollingRecipeGenerator extends AdvancedRecipeProvider {
 		new SmithingStoneData(RollingItems.SIMPLE_SMITHING_STONE, 1, "simple"),
 		new SmithingStoneData(RollingItems.MALEDICTIVE_SMITHING_STONE, 2, "maledictive"),
 		new SmithingStoneData(RollingItems.HONED_SMITHING_STONE, 2, "honed"),
-		new SmithingStoneData(RollingItems.GILDED_SMITHING_STONE, 3, "gilded")
+		new SmithingStoneData(RollingItems.GILDED_SMITHING_STONE, 3, "gilded"),
+		new SmithingStoneData(RollingItems.MIDAS_SMITHING_STONE, 5, "midas")
 	);
 
 	public static final Map<RegistryKey<Upgrade>, Item> UPGRADE_MATERIALS = Map.of(
@@ -91,7 +92,7 @@ public class RollingRecipeGenerator extends AdvancedRecipeProvider {
 				String name = "upgrade/" + upgradeId.getPath() + "/" + data.name;
 				Identifier path = Identifier.of(upgradeId.getNamespace(), name);
 
-				SmithingUpgradeRecipeBuilder.create(RecipeCategory.MISC, template, base, addition, upgrade, data.tier, true)
+				SmithingUpgradeRecipeBuilder.create(RecipeCategory.MISC, template, base, addition, upgrade, data.tier, false)
 					.criterion("has_smithing_stone", conditionsFromItem(item))
 					.offerTo(exporter, path);
 			});

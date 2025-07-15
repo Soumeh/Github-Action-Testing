@@ -28,7 +28,8 @@ public class RollingItemGroups {
 			RollingItems.SIMPLE_SMITHING_STONE.getDefaultStack().copy(),
 			RollingItems.MALEDICTIVE_SMITHING_STONE.getDefaultStack().copy(),
 			RollingItems.HONED_SMITHING_STONE.getDefaultStack().copy(),
-			RollingItems.GILDED_SMITHING_STONE.getDefaultStack().copy()
+			RollingItems.GILDED_SMITHING_STONE.getDefaultStack().copy(),
+			RollingItems.MIDAS_SMITHING_STONE.getDefaultStack().copy()
 		));
 		entries.getContext().lookup().getOptionalWrapper(RollingRegistryKeys.UPGRADE).ifPresent(registry -> {
 			addMaxTierSmithingStones(entries, registry);

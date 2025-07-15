@@ -3,6 +3,7 @@ package org.solstice.rollingStones.registry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -12,6 +13,7 @@ import net.minecraft.util.Rarity;
 import org.solstice.rollingStones.RollingStones;
 import org.solstice.rollingStones.content.item.CursedSmithingStoneItem;
 import org.solstice.rollingStones.content.item.SmithingStoneItem;
+import org.solstice.rollingStones.content.item.TransformingSmithingStone;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -39,6 +41,11 @@ public class RollingItems {
 		new Item.Settings()
 			.rarity(Rarity.RARE)
     );
+	public static final Item MIDAS_SMITHING_STONE = register("midas_smithing_stone",
+		settings -> new TransformingSmithingStone(settings, RollingTags.MIDAS_TRANSFORMATIONS, Items.GOLD_INGOT),
+		new Item.Settings()
+			.rarity(Rarity.RARE)
+	);
 
 	public static final Int2ObjectOpenHashMap<ItemStack> SMITHING_STONE_TIERS = new Int2ObjectOpenHashMap<>(Map.of(
 		1, SIMPLE_SMITHING_STONE.getDefaultStack(),

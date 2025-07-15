@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org)
 
 ## [Unreleased]
 
+## 0.3.2
+
+- New Midas Smithing stone, which applies great upgrades but turns your item into gold
+
 ## 0.3.0
 
 - Changed Strongbox behavior to tick opening on a cooldown (twice a second)

@@ -2,8 +2,6 @@
 
 **Rolling Stones** is an equipment progression overhaul mod that replaces attribute upgrading enchantments with unique upgrades
 
-
-
 # Features
 
 - Added the Upgrade system
