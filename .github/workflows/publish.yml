@@ -37,11 +37,5 @@ jobs:
                     fabric-api
                     euclids-elements
 
-#                  curseforge-id: "${{ vars.CURSEFORGE_ID }}"
-#                  curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
-#                  curseforge-version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
-                  modrinth-id: "${{ vars.MODRINTH_ID }}"
-                  modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
-                  modrinth-version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
                   github-tag: "${{ github.event.release.tag_name }}"
                   github-token: "${{ secrets.GITHUB_TOKEN }}"
